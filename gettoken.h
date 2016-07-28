@@ -11,15 +11,15 @@
 
 using namespace std;
 
-typedef enum tokenType { Start, Invalid, Nothing, NomoreToken, Value, Variable, Symbol, StrLiteral
-												 LParen, RParen, Comma, Molt, Divide, Plus, Minus
+typedef enum tokenType { Start, Invalid, Nothing, NomoreToken, Value, Variable, Symbol, StrLiteral,
+												 LParen, RParen, Comma, Mult, Divide, Plus, Minus,
 												 Smaller, Greater, Equal, NotEqual, Assign,
 												 Cmd, End, Print, Println, Printspc,
-												 call, sub, Endsub, If, Then, Else, Endif, For, To, Next } TokenType;
-typedef enum token Pos { Top, AfterLParen, AfterAssign, Middle, EndToken } TokenPos;
+												 Call, Sub, Endsub, If, Then, Else, Endif, For, To, Next } TokenType;
+typedef enum tokenPos { Top, AfterLParen, AfterAssign, Middle, EndToken } TokenPos;
 
 class Token {
-	TokneType type;
+	TokenType type;
 	string symbol;
 	double value;
 	TokenPos position;
@@ -41,7 +41,7 @@ public:
 		type = Value;
 		position = pos;
 	};
-	Token (TokenTyep t, TokenPos pos = Middle) {
+	Token (TokenType t, TokenPos pos = Middle) {
 		type = t;
 		value = 0.0;
 		position = pos;
@@ -52,7 +52,7 @@ public:
 		value = 0.0;
 		position = pos;
 	};
-	Token (string s, TokenPos = Middle) {
+	Token (string s, TokenPos pos = Middle) {
 		symbol = s;
 		type = Symbol;
 		value = 0.0;
@@ -83,6 +83,6 @@ Token getTokenN (int n, vector<Token> tknList);
 int getTokenList (string s, vector<Token> & tknList);
 Token getToken (string s);
 void dispTokenList (vector<Token> tknList, string name);
-void printTokenVal0rLiteral (Token tt, bool crlf=false);
+void printTokenValOrLiteral (Token tt, bool crlf=false);
 
 #endif

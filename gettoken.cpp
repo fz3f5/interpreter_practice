@@ -1,7 +1,7 @@
 //
 // gettoken.cpp
 //
-#include <vector<
+#include <vector>
 #include "gettoken.h"
 #include "util.h"
 
@@ -32,8 +32,8 @@ TokenType get1stTokenType (string src)
 	vector<Token> tokenList;
 	if (getTokenList(src, tokenList) < 1) 
 		return Invalid;
-	Token tok = getTokenN(0, tokenList)
-	return tok,getType();
+	Token tok = getTokenN(0, tokenList);
+	return tok.getType();
 }
 
 Token getTokenN(int n, vector <Token> tknList)
@@ -41,16 +41,16 @@ Token getTokenN(int n, vector <Token> tknList)
 	if ((int)(tknList.size()) < n + 1)
 		return Token (Nothing);
 
-	return tknList(n);
+	return tknList[n];
 }
 
 int getTokenList (string s, vector<Token> &tknList)
 {
 	prevTok = Token (Start);
 	tknList.clear();
-	Tokne tok = getToke (s);
+	Token tok = getToken(s);
 	while (tok.getType() != NomoreToken) {
-		tknList.push_back (tok);
+		tknList.push_back(tok);
 		prevTok = tok;
 		tok = getToken ("");
 	}
@@ -60,9 +60,9 @@ int getTokenList (string s, vector<Token> &tknList)
 void dispTokenList (vector<Token> tknList, string name)
 { 
 	cout << "=== Token List(" << name << ") Top ===" << endl;
-	vector<Token> ::iterator itr;
-	for (int tknList.begin(); itr != tknList.end(); ++itr) {
-		Toke tok = *itr;
+	vector<Token>::iterator itr;
+	for (itr = tknList.begin(); itr != tknList.end(); ++itr) {
+		Token tok = *itr;
 		tok.printToken();
 	}
 	cout << "--- Token List End ---" << endl;
@@ -81,7 +81,7 @@ Token getToken (string s)
 	static string srcstr;
 	string tokenstr;
 
-	if (isCommandOrAssign (prevtok))
+	if (isCommandOrAssign (prevTok))
 		prevTok.setType (Start);
 
 	string ss = trimStart (s);
@@ -127,7 +127,7 @@ Token getToken (string s)
 		return Token (Greater, tp);
 	}
 	if (c1 == '/') {
-		srcstr = srcstr.substr (1, srtstr.length()-1);
+		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (Divide, tp);
 	}
 	if (c1 == '*') {
@@ -135,7 +135,7 @@ Token getToken (string s)
 		return Token (Mult, tp);
 	}
 	if (c1 == '=') {
-		srcstr = srcstr.substr (1, srtcst.length()-1);
+		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (Assign, tp);
 	}
 	if (c1 == '(') {
@@ -153,7 +153,7 @@ Token getToken (string s)
 	if (c1 == '-' && isalpha(c2)) { // minus symbol
 		tokenstr = c1;
 		while (true) {
-			if ((int)(srcstr.length() == pos) {
+			if ((int)(srcstr.length()) == pos) {
 				srcstr = "";
 				tp = EndToken;
 				break;
@@ -176,7 +176,7 @@ Token getToken (string s)
 		while (true) {
 			if ((int)(srcstr.length()) == pos) {
 				srcstr = "";
-				return Token(atof(tokenstr.c_str())), EndToken);
+				return Token(atof(tokenstr.c_str()), EndToken);
 			}
 			char c = srcstr[pos++];
 			if (c == '.' || isdigit(c)) 
@@ -193,9 +193,9 @@ Token getToken (string s)
 	tokenstr = c1;
 	bool bInStrLiteral = false;
 	if (c1 == 0x22) // 0x22 = \"
-		bInStrIteral = true;
+		bInStrLiteral = true;
  	  while (true) {
-		if ((int)(srcstr.length() == pos) {
+		if ((int)(srcstr.length()) == pos) {
 			srcstr = "";
 			tp = EndToken;
 			break;
@@ -235,12 +235,12 @@ Token getToken (string s)
 		return Token (Call, tp);
 	if (compareIgnCase(tokenstr, "sub"))
 		return Token (Sub, tp);
-	if (compareIgnCase(tokenstr, "endsub")
+	if (compareIgnCase(tokenstr, "endsub"))
 		return Token (Endsub, tp);
 	if (compareIgnCase(tokenstr, "if"))
-		return Token (If, tp)
-	if (compareIgnCase(toknestr, "then"))
-		return Tokne (Then, tp);
+		return Token (If, tp);
+	if (compareIgnCase(tokenstr, "then"))
+		return Token (Then, tp);
 	if (compareIgnCase(tokenstr, "else"))
 		return Token (Else, tp);
 	if (compareIgnCase(tokenstr, "endif"))

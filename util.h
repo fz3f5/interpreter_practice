@@ -13,12 +13,12 @@ using namespace std;
 
 #define MAX_LINE_LENGTH 256
 
-enum errorid ( UnknownError, NoFileName, FileNotOpen, Dummy };
+enum errorid { UnknownError, NoFileName, FileNotOpen, Dummy };
 typedef errorid ErrorID;
 
 bool isParen (char c);
 
-bool compCharIgnCase (char c1, char c1);
+bool compCharIgnCase (char c1, char c2);
 bool compareIgnCase (string s1, string s2);
 string::iterator searchIgnCase (string &str, const string &substr);
 string trim (string s);

@@ -2,12 +2,12 @@
 // source.h
 //
 #ifndef SOURCE_H
-#ifndef SOURCE_H
+#define SOURCE_H
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <algorithm>
-#include <strin>
+#include <string>
 #include <cctype>
 #include <iomanip>
 

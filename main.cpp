@@ -9,10 +9,10 @@
 
 using namespace std;
 
-bool DispToken = false // Display the token "true"
-bool DispStack = false // Display the stack "true"
-bool DispLine = false // Display the Line "true"
-bool fDirectMode = false // Change the DirectExecutionMode "true"      
+bool DispToken = false; // Display the token "true"
+bool DispStack = false; // Display the stack "true"
+bool DispLine = false; // Display the Line "true"
+bool fDirectMode = false; // Change the DirectExecutionMode "true"      
 
 void initRun();
 void initLoad();
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 	while(true)
 	{
 		cout << "->";
-		cin.getline(buff, MAX_LINE_LENGTH]);
+		cin.getline(buff, MAX_LINE_LENGTH);
 		s = trim(string(buff));
 		if (s.length() == 0) // skip the blank
 			continue;
@@ -52,10 +52,10 @@ int main(int argc, char *argv[])
 		}
 		if (compareIgnCase(s, "printstack") || compareIgnCase(s, "ps")) {  // Outputs the current stack
 			printstack(Stck, "Stck");
-			printstack(Opstck, "Opstck");
+			printstack(OpStck, "OpStck");
 			continue;
 		}
-		if (compareIgnCase(s, "printvar") || compareIgnCase(s, "pv") {  // Outputs the Variable table
+		if (compareIgnCase(s, "printvar") || compareIgnCase(s, "pv")) {  // Outputs the Variable table
 			printvarmap();
 			continue;
 		}
@@ -65,12 +65,12 @@ int main(int argc, char *argv[])
 			continue;
 		}
 		if (compareIgnCase(s, "DispToken") || compareIgnCase(s, "dt")) { //Turn "ON" and "OFF" the tokne output
-			DispToken = !DsipToken;
+			DispToken = !DispToken;
 			cout << (DispToken ? "DispToken on" : "DispToken off") << endl;
 			continue;
 		}
-		if (compareIgnCase(s, "DispLine") || comapreIgnCase(s, "dl")) { // Turn "ON" and "OFF" the line output
-			DispLine = !DipsLine;
+		if (compareIgnCase(s, "DispLine") || compareIgnCase(s, "dl")) { // Turn "ON" and "OFF" the line output
+			DispLine = !DispLine;
 			cout << (DispLine ? "DispLine on" : "DispLine off") << endl;
 			continue;
 		}

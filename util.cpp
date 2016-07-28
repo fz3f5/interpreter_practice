@@ -2,6 +2,7 @@
 // util.cpp
 //
 #include "util.h"
+#include <string.h> //Need to include after versin g++4.3
 
 using namespace std;
 
@@ -14,10 +15,10 @@ bool compareIgnCase (string s1, string s2)
 {
 	if (s1.length() != s2.length())
 		return false;
-	return equal(s1.begin(), s1.end(), s2.begin(). compCharIgnCase);
+	return equal(s1.begin(), s1.end(), s2.begin(), compCharIgnCase);
 }
 
-string::iterator searchIgnCase (strin &str, const string &substr) 
+string::iterator searchIgnCase (string &str, const string &substr) 
 {
 	return search (str.begin(), str.end(), substr.begin(), substr.end(), compCharIgnCase);
 }
@@ -59,8 +60,8 @@ string trimStart (string s)
 string StripStr (string s)
 {
 	int len = s.length();
-	if (s[0] != '\' || s[len-1] != 0x22)
-		cout << "文字列が不正です" << endl;
+	if (s[0] != 0x22 || s[len-1] != 0x22)
+		cout << "string is invalid" << endl;
 	string result = s.substr(1, len-2);
 	return result;
 }
@@ -74,13 +75,13 @@ void removeLastCRLF (char *buff)
 
 int isNumberString (string ss)
 {
-	string s == trim(ss);
+	string s = trim(ss);
 	char c = s[0];
 	if (c != '.' && c != '-' && !isdigit(c))
 		return 0;
 	if (s.length() == 1 && !isdigit(c))
 		return 0;
-	int len s.length();
+	int len = s.length();
 	int nPeriod = 0;
 	if (c == '.')
 		nPeriod = 1;
@@ -130,7 +131,7 @@ int syntaxError (string msg)
 	return -1;
 }
 
-string errorStr[] = {"不明のエラー”, "ファイル名が指定されていません", "ファイルを開けません:"};
+string errorStr[] = {"Unknown Error.", "Not specified the file name.", "The file can not be opened." };
 
 int dispError (ErrorID id, string s)
 {

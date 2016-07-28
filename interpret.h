@@ -22,7 +22,7 @@ Token expression(vector<Token> ExTokenList);
 int execSrcLine(string sourceline);
 
 extern map<string, double> varmap;
-extern stck<Token> Stck;
+extern stack<Token> Stck;
 extern stack<Token> OpStck;
 extern bool DispLine;
 extern bool fDirectMode;

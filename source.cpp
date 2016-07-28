@@ -1,6 +1,7 @@
 /*
  *  source.cpp
  */
+#include <string.h> // Need to include after "g++-4.3" version
 #include "source.h"
 #include "interpret.h"
 #include "util.h"
@@ -9,7 +10,7 @@ using namespace std;
 
 
 // sourcelist
-vector <string> SourceList;
+vector<string> SourceList;
 
 // correntline
 int CurrentLine;
@@ -37,8 +38,9 @@ int loadSourceFile(string cmdline)
 	SourceList.clear();
 	int lines = 0;
 	while (!fin.eof()) {
-		fin.getline(buff, MAX_LINE_LENGTH];
+		fin.getline(buff, MAX_LINE_LENGTH);
 		removeLastCRLF(buff);
+		string s = string(buff);
 		if (s.length() > 0) {
 			SourceList.push_back(s);
 			lines += 1;
