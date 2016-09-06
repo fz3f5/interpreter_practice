@@ -11,9 +11,13 @@ make clean で生成したオブジェクトファイルを削除します。
 
 
 <<コマンド>>
-quit 
-printvar(pv)
-printstack(ps)
-print x   x(任意の式)を評価し出力(改行なし)
-println x x(任意の式)を評価し出力(改行あり)
+quit:プログラムを終了
+
+printvar(pv): 変数を表示
+
+printstack(ps): スタックを表示     
+
+print x: x(任意の式)を評価し出力(改行なし)      
+
+println x:  x(任意の式)を評価し出力(改行あり)
 
