@@ -1,5 +1,5 @@
 //
-// main.cpp - anonymous program.
+// main.cpp 
 //
 #include <clocale>
 #include "source.h"
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 		if (compareIgnCase(s, "quit"))  
 			break;
 		if (compareIgnCase(s, "version")) {
-			cout << "anonymous, ver.0.01 " << endl;
+			cout << "created by fz3f5, ver.1 " << endl;
 			continue;
 		}
 		if (searchIgnCase(s, "load") != s.end()) { //Load the sourcefile

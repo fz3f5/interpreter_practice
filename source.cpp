@@ -30,8 +30,8 @@ int loadSourceFile(string cmdline)
 		return dispError(NoFileName);
 	char filename[MAX_LINE_LENGTH];
 	strcpy(filename, token);
-	if (strstr(filename, ".ano") == NULL)
-		strcat(filename, ".ano");
+	if (strstr(filename, ".asm") == NULL)
+		strcat(filename, ".asm");
 	ifstream fin(filename, ios::in);  // open the inputfile
 	if (!fin)
 		return dispError(FileNotOpen, filename);
