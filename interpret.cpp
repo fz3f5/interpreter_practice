@@ -35,11 +35,11 @@ Token expression (vector <Token> tknList)
 
 	while (true)
 	{
-		if (DispStack) {
+		if (StackStat) {
 			printstack(exstck, "exstck");
 			printstack(exopstck, "exopstck");
 		}
-		if (DispToken) 
+		if (TokenStat) 
 			dispTokenList(tknList, "tknList");
 
 		
@@ -451,7 +451,7 @@ int doIfStatement()
 
 int doAssign()
 {
-	if (DispToken)
+	if (TokenStat)
 		dispTokenList(TokenList, "TokenList");
 	
 	Token token0 = getNextToken(TokenList);
@@ -471,7 +471,7 @@ int doAssign()
 		tok = expression(exTokenList);
 	Stck.push(tok);
 
-	if (DispStack) {
+	if (StackStat) {
 		printstack(Stck, "Stck");
 		printstack(OpStck, "OpStck");
 	}
@@ -480,7 +480,7 @@ int doAssign()
 	varmap[symbol] = v;
 	if (fDirectMode) 
 		cout << v << endl;
-	if (DispStack) {
+	if (StackStat) {
 		printstack(Stck, "Stck");
 		printstack(OpStck, "Opstck");
 	}
@@ -498,7 +498,7 @@ int execSrcLine(string sourceline)
 		return 0;
 	getTokenList(line, TokenList);
 
-	if (DispToken)
+	if (TokenStat)
 		dispTokenList(TokenList, "TokenList");
 
 	Token token0 = getTokenN(0, TokenList);
@@ -523,14 +523,14 @@ int execSrcLine(string sourceline)
 			dispSourceFile();
 			return 0;
 		}
-		if (compareIgnCase(symbol, "DispStack") || compareIgnCase(symbol, "ds")) {
-			DispStack = !DispStack;
-			cout << (DispStack ? "DispStack on" : "DispStack off") << endl;
+		if (compareIgnCase(symbol, "StackStat") || compareIgnCase(symbol, "ss")) {
+			StackStat = !StackStat;
+			cout << (StackStat ? "StackStat on" : "StackStat off") << endl;
 			return 0;
 		}
-		if (compareIgnCase(symbol, "DispToken") || compareIgnCase(symbol, "dt")) {
-			DispToken = !DispToken;
-			cout << (DispToken ? "DispToken on" : "DispToken off") << endl;
+		if (compareIgnCase(symbol, "TokenStat") || compareIgnCase(symbol, "ts")) {
+			TokenStat = !TokenStat;
+			cout << (TokenStat ? "TokenStat on" : "TokenStat off") << endl;
 			return 0;
 		}
 		if (compareIgnCase(symbol, "DispLine") || compareIgnCase(symbol, "dl")) {

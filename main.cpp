@@ -9,8 +9,8 @@
 
 using namespace std;
 
-bool DispToken = false; // Display the token "true"
-bool DispStack = false; // Display the stack "true"
+bool TokenStat = false; // Display the token "true"
+bool StackStat = false; // Display the stack "true"
 bool DispLine = false; // Display the Line "true"
 bool fDirectMode = false; // Change the DirectExecutionMode "true"      
 
@@ -59,14 +59,14 @@ int main(int argc, char *argv[])
 			printvarmap();
 			continue;
 		}
-		if (compareIgnCase(s, "DispStack") || compareIgnCase(s, "ds")) { //Turn "ON" and "OFF" the stack output
-			DispStack = !DispStack;
-			cout << (DispStack ? "DispStack on" : "DispStack off") << endl;
+		if (compareIgnCase(s, "StackStat") || compareIgnCase(s, "ss")) { //Turn "ON" and "OFF" the stack output
+			StackStat = !StackStat;
+			cout << (StackStat ? "StackStat on" : "StackStat off") << endl;
 			continue;
 		}
-		if (compareIgnCase(s, "DispToken") || compareIgnCase(s, "dt")) { //Turn "ON" and "OFF" the tokne output
-			DispToken = !DispToken;
-			cout << (DispToken ? "DispToken on" : "DispToken off") << endl;
+		if (compareIgnCase(s, "TokenStat") || compareIgnCase(s, "ts")) { //Turn "ON" and "OFF" the tokne output
+			TokenStat = !TokenStat;
+			cout << (TokenStat ? "TokenStat on" : "TokenStat off") << endl;
 			continue;
 		}
 		if (compareIgnCase(s, "DispLine") || compareIgnCase(s, "dl")) { // Turn "ON" and "OFF" the line output
@@ -95,8 +95,8 @@ int main(int argc, char *argv[])
 
 void initLoad()
 {
-	DispToken = false;
-	DispStack = false;
+	TokenStat = false;
+	StackStat = false;
 	DispLine = false;
 }
 

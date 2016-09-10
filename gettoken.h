@@ -71,8 +71,8 @@ public:
 };
 
 extern vector <Token> TokenList;
-extern bool DispToken;
-extern bool DispStack;
+extern bool TokenStat;
+extern bool StackStat;
 
 Token getNextToken (vector<Token> & tknList);
 void backToken (Token tok, vector<Token> & tknList);
