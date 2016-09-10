@@ -288,7 +288,7 @@ int doCallStatement()
 		src = SourceList[CurrentLine];
 		getTokenList(src, TokenList);
 		TokenType tt = getTokenN(0, TokenList).getType();
-		if (tt == Endsub) {
+		if (tt == Enddef) {
 			if (DispLine)
 				cout << "Run the " << src << endl;
 			break;

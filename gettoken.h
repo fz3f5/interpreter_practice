@@ -15,7 +15,7 @@ typedef enum tokenType { Start, Invalid, Nothing, NomoreToken, Value, Variable, 
 												 LParen, RParen, Comma, Mult, Divide, Plus, Minus,
 												 Smaller, Greater, Equal, NotEqual, Assign,
 												 Cmd, End, Print, Println, Printspc,
-												 Call, Sub, Endsub, If, Then, Else, Endif, For, To, Next } TokenType;
+												 Call, Sub, Enddef, If, Then, Else, Endif, For, To, Next } TokenType;
 typedef enum tokenPos { Top, AfterLParen, AfterAssign, Middle, EndToken } TokenPos;
 
 class Token {

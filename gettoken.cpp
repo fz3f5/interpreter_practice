@@ -233,10 +233,10 @@ Token getToken (string s)
 		return Token (Println, tp);
 	if (compareIgnCase(tokenstr, "call"))
 		return Token (Call, tp);
-	if (compareIgnCase(tokenstr, "sub"))
+	if (compareIgnCase(tokenstr, "def"))
 		return Token (Sub, tp);
-	if (compareIgnCase(tokenstr, "endsub"))
-		return Token (Endsub, tp);
+	if (compareIgnCase(tokenstr, "enddef"))
+		return Token (Enddef, tp);
 	if (compareIgnCase(tokenstr, "if"))
 		return Token (If, tp);
 	if (compareIgnCase(tokenstr, "then"))
@@ -279,7 +279,7 @@ void printTokenValOrLiteral (Token tt, bool crlf)
 	
 }
 
-string TokenTypeName[] = { "Start", "Invalid", "Nothing", "NomoreToken", "Value", "Variable", "Symbol", "StrLiteral", "LParen (", "RParen )", "Comma", "*(Mult)", "/(Divide)", "+(Plus", "-(Minus)", "<(Smaller)", ">(Greater)", "=(Equal)", "!=(NotEqual)", "=(Assign)", "Cmd", "End", "Print", "Println", "Printspc", "Call", "Sub", "Endsub", "If", "Then", "Else", "Endif", "For", "To", "Next" };
+string TokenTypeName[] = { "Start", "Invalid", "Nothing", "NomoreToken", "Value", "Variable", "Symbol", "StrLiteral", "LParen (", "RParen )", "Comma", "*(Mult)", "/(Divide)", "+(Plus", "-(Minus)", "<(Smaller)", ">(Greater)", "=(Equal)", "!=(NotEqual)", "=(Assign)", "Cmd", "End", "Print", "Println", "Printspc", "Call", "Sub", "Enddef", "If", "Then", "Else", "Endif", "For", "To", "Next" };
 
 string tokenPosName[] = {
 	"Top", "AfterLParen", "AfterAssign", "Middle", "EndToken" 
