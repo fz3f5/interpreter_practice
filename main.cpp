@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 		s = trim(string(buff));
 		if (s.length() == 0) // skip the blank
 			continue;
-		if (compareIgnCase(s, "quit"))  
+		if (compareIgnCase(s, "quit") || compareIgnCase(s, "exit"))  
 			break;
 		if (compareIgnCase(s, "version")) {
 			cout << "created by fz3f5, ver.1 " << endl;
