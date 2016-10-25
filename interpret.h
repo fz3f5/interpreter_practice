@@ -16,7 +16,7 @@
 
 int statement (string s = "");
 template <class T> Token getTopElem(T &Stck);
-void printstack(stack<Token> Stck, string msg);
+void printstack(stack<Token> Stck, string message);
 void printvarmap();
 Token expression(vector<Token> ExTokenList);
 int execSrcLine(string sourceline);
@@ -24,7 +24,7 @@ int execSrcLine(string sourceline);
 extern map<string, double> varmap;
 extern stack<Token> Stck;
 extern stack<Token> OpStck;
-extern bool DispLine;
-extern bool fDirectMode;
+extern bool disp_line;
+extern bool f_direct_mode;
 
 #endif

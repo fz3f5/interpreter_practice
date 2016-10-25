@@ -11,11 +11,10 @@
 
 using namespace std;
 
-typedef enum tokenType { Start, Invalid, Nothing, NomoreToken, Value, Variable, Symbol, StrLiteral,
-												 LParen, RParen, Comma, Mult, Divide, Plus, Minus,
-												 Smaller, Greater, Equal, NotEqual, Assign,
-												 Cmd, End, Print, Println, Printspc,
-												 Call, Sub, Enddef, If, Then, Else, Endif, For, To, Next } TokenType;
+typedef enum tokenType 
+{ Start, Invalid, Nothing, NomoreToken, Value, Variable, Symbol, StrLiteral, LParen, RParen, Comma, Mult, Divide, Plus, Minus, Smaller, Greater, Equal, NotEqual, Assign, Cmd, End, Print, Println, Printspc, Call, Sub, Enddef, If, Then, Else, Endif, For, To, Next 
+} TokenType;
+
 typedef enum tokenPos { Top, AfterLParen, AfterAssign, Middle, EndToken } TokenPos;
 
 class Token {
@@ -59,20 +58,19 @@ public:
 		position = pos;
 	};
 	
-	TokenType getType () { return type; };
-	void setType (TokenType t) { type = t; };
-	string getSymbol () { return symbol; };
-	double getValue () { return value; };
-	void setValue (double v) { value = v; };
-	TokenPos getPosition () { return position; };
-	bool isStartToken ();
-	void printToken ();
-	
+	TokenType getType() { return type; };
+	void setType(TokenType t) { type = t; };
+	string getSymbol() { return symbol; };
+	double getValue() { return value; };
+	void setValue(double v) { value = v; };
+	TokenPos getPosition() { return position; };
+	bool isStartToken();
+	void printToken();
 };
 
 extern vector <Token> TokenList;
-extern bool TokenStat;
-extern bool StackStat;
+extern bool token_stat;
+extern bool stack_stat;
 
 Token getNextToken (vector<Token> & tknList);
 void backToken (Token tok, vector<Token> & tknList);

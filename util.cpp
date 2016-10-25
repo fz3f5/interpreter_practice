@@ -2,35 +2,35 @@
 // util.cpp
 //
 #include "util.h"
-#include <string.h> //Need to include after versin g++4.3
-
+#include <string.h>  /* Need to include after versin g++4.3 */
 using namespace std;
 
-bool compCharIgnCase (char c1, char c2) 
+
+bool comp_char(char c1, char c2) 
 {
 	return (tolower(c1) == tolower(c2));
 }
 
-bool compareIgnCase (string s1, string s2)
+bool comp_str(string s1, string s2)
 {
-	if (s1.length() != s2.length())
+	if(s1.length() != s2.length())
 		return false;
-	return equal(s1.begin(), s1.end(), s2.begin(), compCharIgnCase);
+	return equal(s1.begin(), s1.end(), s2.begin(), comp_char);
 }
 
-string::iterator searchIgnCase (string &str, const string &substr) 
+string::iterator search_str(string &str, const string &substr) 
 {
-	return search (str.begin(), str.end(), substr.begin(), substr.end(), compCharIgnCase);
+	return search (str.begin(), str.end(), substr.begin(), substr.end(), comp_char);
 }
 
-string trim (string s)
+string trim(string s)
 {
 	string ss = "";
 	bool instr = false;
 	int len = s.length();
-	for (int i = 0; i < len; i++) {
+	for(int i = 0; i < len; i++) {
 		char c = s[i];
-		if ((c == 0x20 || c == 0x8) && !instr)
+		if((c == 0x20 || c == 0x8) && !instr)
 			continue;
 		else {
 			ss += c;
@@ -40,7 +40,7 @@ string trim (string s)
 	return ss;
 }
 
-string trimStart (string s)
+string trim_start(string s)
 {
 	string ss = "";
 	int len = s.length();
@@ -57,7 +57,7 @@ string trimStart (string s)
 	return ss;
 }
 
-string StripStr (string s)
+string strip_str(string s)
 {
 	int len = s.length();
 	if (s[0] != 0x22 || s[len-1] != 0x22)
@@ -66,14 +66,14 @@ string StripStr (string s)
 	return result;
 }
 
-void removeLastCRLF (char *buff)
+void remove_last_CRLF (char *buff)
 {
 	int len = strlen(buff);
 	if (buff[len-1] == 0xd || buff[len-1] == 0xa)
 		buff[len-1] = 0;
 }
 
-int isNumberString (string ss)
+int is_number_string(string ss)
 {
 	string s = trim(ss);
 	char c = s[0];
@@ -99,7 +99,7 @@ int isNumberString (string ss)
 	return 1;
 }
 
-bool isOparator (char c)
+bool is_oparator (char c)
 {
 	if (c == '<' || c == '>')
 		return true;
@@ -115,17 +115,17 @@ bool isOparator (char c)
 }
 
 
-bool isParen (char c)
+bool is_paren (char c)
 {
 	if (c == '(' || c == ')')
 		return true;
 	return false;
 }
 
-int syntaxError (string msg)
+int syntax_error(string message)
 {
-	if (msg.length() > 0)
-		cerr << "syntaxerror: " << msg << endl;
+	if (message.length() > 0)
+		cerr << "syntaxerror: " << message << endl;
 	else
 		cerr << "syntaxerror" << endl;
 	return -1;
@@ -133,7 +133,7 @@ int syntaxError (string msg)
 
 string errorStr[] = {"Unknown Error.", "Not specified the file name.", "The file can not be opened." };
 
-int dispError (ErrorID id, string s)
+int disp_error(ErrorID id, string s)
 {
 	cout << errorStr[id] << s << endl;
 	return -1;

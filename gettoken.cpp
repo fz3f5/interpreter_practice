@@ -84,7 +84,7 @@ Token getToken (string s)
 	if (isCommandOrAssign (prevTok))
 		prevTok.setType (Start);
 
-	string ss = trimStart (s);
+	string ss = trim_start (s);
 	srcstr += ss;
 	s = trim (srcstr);
 	srcstr = s;
@@ -159,7 +159,7 @@ Token getToken (string s)
 				break;
 			}
 			char c = srcstr[pos++];
-			if (c == ' ' || isOparator(c) || isParen(c) || c == ',') {
+			if (c == ' ' || is_oparator(c) || is_paren(c) || c == ',') {
 				--pos;
 				int len = srcstr.length() - pos;
 				srcstr = srcstr.substr(pos, len);
@@ -212,7 +212,7 @@ Token getToken (string s)
 				tokenstr += c;
 			}
 		} else {
-			if (c == ' ' || isOparator(c) || isParen(c) || c == ',') {
+			if (c == ' ' || is_oparator(c) || is_paren(c) || c == ',') {
 				--pos;
 				int len = srcstr.length() - pos;
 				srcstr = srcstr.substr(pos, len);
@@ -224,32 +224,32 @@ Token getToken (string s)
 	}
 	
 	if (tokenstr[0] == 0x22) // 0x22 = \"
-		return Token (StrLiteral, StripStr(tokenstr), tp);
-	if (compareIgnCase(tokenstr, "end"))
+		return Token (StrLiteral, strip_str(tokenstr), tp);
+	if (comp_str(tokenstr, "end"))
 		return Token (End, tp);
-	if (compareIgnCase(tokenstr, "print"))
+	if (comp_str(tokenstr, "print"))
 		return Token (Print, tp);
-	if (compareIgnCase(tokenstr, "println"))
+	if (comp_str(tokenstr, "println"))
 		return Token (Println, tp);
-	if (compareIgnCase(tokenstr, "call"))
+	if (comp_str(tokenstr, "call"))
 		return Token (Call, tp);
-	if (compareIgnCase(tokenstr, "def"))
+	if (comp_str(tokenstr, "def"))
 		return Token (Sub, tp);
-	if (compareIgnCase(tokenstr, "enddef"))
+	if (comp_str(tokenstr, "enddef"))
 		return Token (Enddef, tp);
-	if (compareIgnCase(tokenstr, "if"))
+	if (comp_str(tokenstr, "if"))
 		return Token (If, tp);
-	if (compareIgnCase(tokenstr, "then"))
+	if (comp_str(tokenstr, "then"))
 		return Token (Then, tp);
-	if (compareIgnCase(tokenstr, "else"))
+	if (comp_str(tokenstr, "else"))
 		return Token (Else, tp);
-	if (compareIgnCase(tokenstr, "endif"))
+	if (comp_str(tokenstr, "endif"))
 		return Token (Endif, tp);
-	if (compareIgnCase(tokenstr, "for"))
+	if (comp_str(tokenstr, "for"))
 		return Token (For, tp);
-	if (compareIgnCase(tokenstr, "to"))
+	if (comp_str(tokenstr, "to"))
 		return Token (To, tp);
-	if (compareIgnCase(tokenstr, "next"))
+	if (comp_str(tokenstr, "next"))
 		return Token (Next, tp);
 	
 	return Token (tokenstr, tp);

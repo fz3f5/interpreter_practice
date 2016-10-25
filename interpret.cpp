@@ -35,11 +35,11 @@ Token expression (vector <Token> tknList)
 
 	while (true)
 	{
-		if (StackStat) {
+		if (stack_stat) {
 			printstack(exstck, "exstck");
 			printstack(exopstck, "exopstck");
 		}
-		if (TokenStat) 
+		if (token_stat) 
 			dispTokenList(tknList, "tknList");
 
 		
@@ -88,7 +88,7 @@ Token expression (vector <Token> tknList)
 						break;
 				}
 				if (tt == NomoreToken)
-					return syntaxError("NO PAREN");
+					return syntax_error("NO PAREN");
 				tmpTokenList.insert(tmpTokenList.end(), tok);
 			}
 			if (tmpTokenList.size() > 1) {
@@ -213,7 +213,7 @@ int doCallStatement()
 	}
 	callCount += 1;
 
-	int returnLine = CurrentLine;
+	int returnLine = currentline;
 	Token token0 = getNextToken(TokenList);
 	Token token1 = getNextToken(TokenList);
 	string subroutineName = token1.getSymbol();
@@ -240,22 +240,22 @@ int doCallStatement()
 	int invokedLine = 0;
 	string src = "";
 	while (true) {
-		src = SourceList[invokedLine];
+		src = sourcelist[invokedLine];
 		int n = getTokenList(src, TokenList);
 		if (getNextToken(TokenList).getType() == Sub) {
 			if (n < 2) 
-				return syntaxError("Subroutine can not be found");
+				return syntax_error("Subroutine can not be found");
 			string symbol = getNextToken(TokenList).getSymbol();
-			if (compareIgnCase(symbol, subroutineName)) {
+			if (comp_str(symbol, subroutineName)) {
 				break;
 			} 
 		}
-		if (++invokedLine >= (int)(SourceList.size()))
-			return syntaxError("Subroutine can not be found");
+		if (++invokedLine >= (int)(sourcelist.size()))
+			return syntax_error("Subroutine can not be found");
 	}
 	
-	src = SourceList[invokedLine];
-	if (DispLine)
+	src = sourcelist[invokedLine];
+	if (disp_line)
 		cout << "Run the " << src << endl;
 	getTokenList(src, TokenList);
 	bool bInParen = false;
@@ -278,27 +278,27 @@ int doCallStatement()
 			string symbol = tok.getSymbol();
 			varmap[symbol] = parameterList[0];
 			if (parameterList.size() < 1)
-				return syntaxError("The number of the argument and parameter do not match");
+				return syntax_error("The number of the argument and parameter do not match");
 			parameterList.erase(parameterList.begin());
 		}
 	}
 	
-	CurrentLine = invokedLine+1;
+	currentline = invokedLine+1;
 	while (true) {
-		src = SourceList[CurrentLine];
+		src = sourcelist[currentline];
 		getTokenList(src, TokenList);
 		TokenType tt = getTokenN(0, TokenList).getType();
 		if (tt == Enddef) {
-			if (DispLine)
+			if (disp_line)
 				cout << "Run the " << src << endl;
 			break;
 		}
-		if (CurrentLine > (int)SourceList.size() - 1)
+		if (currentline > (int)sourcelist.size() - 1)
 			return 0;
-		if (execSrcLine(SourceList[CurrentLine++]))
+		if (execSrcLine(sourcelist[currentline++]))
 			return -1;
 	}
-	CurrentLine = returnLine;
+	currentline = returnLine;
 	return 0;
 }
 
@@ -345,16 +345,16 @@ int doForStatement()
 		forto = exTokenList[0].getValue();
 
 	if (counter > forto)
-		return syntaxError("Parameters of the for statement is incorrect");
+		return syntax_error("Parameters of the for statement is incorrect");
 	do {
-		int tmpLine = CurrentLine;
-		if (tmpLine > (int)SourceList.size() - 1)
+		int tmpLine = currentline;
+		if (tmpLine > (int)sourcelist.size() - 1)
 			return 0;
-		if (get1stTokenType(SourceList[tmpLine]) == Next) {
-			CurrentLine = tmpLine + 1;
+		if (get1stTokenType(sourcelist[tmpLine]) == Next) {
+			currentline = tmpLine + 1;
 			break;
 		}
-		string src = SourceList[tmpLine++];
+		string src = sourcelist[tmpLine++];
 		if (execSrcLine(src))
 			return 0;
 		callCount -= 1;
@@ -392,7 +392,7 @@ int doIfStatement()
 	if (exTokenList.size() > 1)
 		exp = expression(exTokenList).getValue();
 	else 
-		return syntaxError("Conditional expression is invalid");
+		return syntax_error("Conditional expression is invalid");
 	
 	TokenType optt = optok.getType();
 	bool bResult = true;
@@ -406,41 +406,41 @@ int doIfStatement()
 		bResult = false;
 	if (bResult) {
 		while (true) {
-			if (CurrentLine > (int)SourceList.size() - 1)
+			if (currentline > (int)sourcelist.size() - 1)
 				return 0;
-			string src = SourceList[CurrentLine];
+			string src = sourcelist[currentline];
 			TokenType tt = get1stTokenType(src);
 			if (tt == Endif) {
-				CurrentLine += 1;
+				currentline += 1;
 				return 0;
 			}
 			if (tt == Else) {
-				CurrentLine += 1;
+				currentline += 1;
 				while (true) {
-					src = SourceList[CurrentLine++];
+					src = sourcelist[currentline++];
 					if (get1stTokenType(src) == Endif) {
-						CurrentLine += 1;
+						currentline += 1;
 						return 0;
 					}
 				}
 				return 0;
 			}
-      if (execSrcLine(SourceList[CurrentLine++])) 
+      if (execSrcLine(sourcelist[currentline++])) 
 				return 0;
 		}
 	} else {
 		while (true) {
-			string src = SourceList[CurrentLine++];
+			string src = sourcelist[currentline++];
 			if (get1stTokenType(src) == Else) {
 				while (true) {
-					if (CurrentLine > (int)SourceList.size() - 1)
+					if (currentline > (int)sourcelist.size() - 1)
 						return 0;
-					src = SourceList[CurrentLine];
+					src = sourcelist[currentline];
 					if (get1stTokenType(src) == Endif) {
-						CurrentLine += 1;
+						currentline += 1;
 						return 0;
 					}
-					if (execSrcLine(SourceList[CurrentLine++]))
+					if (execSrcLine(sourcelist[currentline++]))
 						return 0;
 			  }
       }
@@ -451,7 +451,7 @@ int doIfStatement()
 
 int doAssign()
 {
-	if (TokenStat)
+	if (token_stat)
 		dispTokenList(TokenList, "TokenList");
 	
 	Token token0 = getNextToken(TokenList);
@@ -471,16 +471,16 @@ int doAssign()
 		tok = expression(exTokenList);
 	Stck.push(tok);
 
-	if (StackStat) {
+	if (stack_stat) {
 		printstack(Stck, "Stck");
 		printstack(OpStck, "OpStck");
 	}
 	Token tv = getTopElem(Stck);
 	double v = tv.getValue();
 	varmap[symbol] = v;
-	if (fDirectMode) 
+	if (f_direct_mode) 
 		cout << v << endl;
-	if (StackStat) {
+	if (stack_stat) {
 		printstack(Stck, "Stck");
 		printstack(OpStck, "Opstck");
 	}
@@ -492,13 +492,13 @@ int execSrcLine(string sourceline)
 	string line = trim(sourceline);
 	if (line.length() < 1)
 		return 1;
-	if (DispLine)
+	if (disp_line)
 		cout << "Run the " << line << endl;
 	if (line.length() > 1 && line[0] == '/' && line[1] == '/')
 		return 0;
 	getTokenList(line, TokenList);
 
-	if (TokenStat)
+	if (token_stat)
 		dispTokenList(TokenList, "TokenList");
 
 	Token token0 = getTokenN(0, TokenList);
@@ -510,32 +510,32 @@ int execSrcLine(string sourceline)
 	
 	if (tt0 == Symbol) {
 		string symbol = token0.getSymbol();
-		if (compareIgnCase(symbol, "printvar")) {
+		if (comp_str(symbol, "printvar")) {
 			printvarmap();
 			return 0;
 		}
-		if (compareIgnCase(symbol, "printstack")) {
+		if (comp_str(symbol, "printstack")) {
 			printstack(Stck, "Stck");
 			printstack(OpStck, "OpStck");
 			return 0;
 		}
-		if (compareIgnCase(symbol, "list")) {
-			dispSourceFile();
+		if (comp_str(symbol, "list")) {
+			disp_source_file();
 			return 0;
 		}
-		if (compareIgnCase(symbol, "StackStat") || compareIgnCase(symbol, "ss")) {
-			StackStat = !StackStat;
-			cout << (StackStat ? "StackStat on" : "StackStat off") << endl;
+		if (comp_str(symbol, "stackstat") || comp_str(symbol, "ss")) {
+			stack_stat = !stack_stat;
+			cout << (stack_stat ? "stackstat on" : "stackstat off") << endl;
 			return 0;
 		}
-		if (compareIgnCase(symbol, "TokenStat") || compareIgnCase(symbol, "ts")) {
-			TokenStat = !TokenStat;
-			cout << (TokenStat ? "TokenStat on" : "TokenStat off") << endl;
+		if (comp_str(symbol, "tokenstat") || comp_str(symbol, "ts")) {
+			token_stat = !token_stat;
+			cout << (token_stat ? "tokenstat on" : "tokenstat off") << endl;
 			return 0;
 		}
-		if (compareIgnCase(symbol, "DispLine") || compareIgnCase(symbol, "dl")) {
-			DispLine = !DispLine;
-			cout << (DispLine ? "DispLine on" : "DispLine off") << endl;
+		if (comp_str(symbol, "displine") || comp_str(symbol, "dl")) {
+			disp_line = !disp_line;
+			cout << (disp_line ? "displine on" : "displine off") << endl;
 			return 0;
 		}
 	}
@@ -602,7 +602,7 @@ int execSrcLine(string sourceline)
 		printTokenValOrLiteral(Stck.top());
 	if (tt0 == Println)
 		printTokenValOrLiteral(Stck.top(), true);
-	if (fDirectMode == true && tt0 != Print && tt0 != Println)
+	if (f_direct_mode == true && tt0 != Print && tt0 != Println)
 		printTokenValOrLiteral(Stck.top(), true);
 
 	return 0;
@@ -611,18 +611,18 @@ int execSrcLine(string sourceline)
 
 int statement (string statementLine)
 {
-	if (fDirectMode) {
+	if (f_direct_mode) {
 		execSrcLine(statementLine);
 		return 0;
 	}
 
 	while (true) {
-		if (CurrentLine > (int)SourceList.size() - 1)
+		if (currentline > (int)sourcelist.size() - 1)
 			return 0;
 		callCount = 0;
 		forCount = 0;
 		ifCount = 0;
-		string str = SourceList[CurrentLine++];
+		string str = sourcelist[currentline++];
 		if (execSrcLine(str))
 			return 0;
 	}
@@ -642,12 +642,12 @@ template<class T> Token getTopElem(T &Stck)
 extern string TokenTypeName[];
 extern string tokenPosName[];
 
-void printstack (stack<Token> Stck, string msg)
+void printstack (stack<Token> Stck, string message)
 {
 	stack<Token> tmpstck;
 
 	tmpstck = Stck;
-	cout << "=== stack " << msg << " Top ===" << endl;
+	cout << "=== stack " << message << " Top ===" << endl;
 	int n = (int)tmpstck.size();
 	for (int i = 0; i < n; i++) {
 		Token t = tmpstck.top();

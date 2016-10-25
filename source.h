@@ -13,9 +13,9 @@
 
 using namespace std;
 
-extern vector <string> SourceList;
-extern int CurrentLine;
-int loadSourceFile(string cmdline);
-void dispSourceFile();
+extern vector <string> sourcelist;
+extern int currentline;
+int load_source_file(string cmdline);
+void disp_source_file();
 
 #endif
