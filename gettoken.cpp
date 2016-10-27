@@ -7,7 +7,7 @@
 
 using namespace std;
 
-vector <Token> TokenList;
+vector<Token> TokenList;
 Token prevTok;
 
 Token get_nexttoken(vector <Token> & tknList) 

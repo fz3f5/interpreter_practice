@@ -99,7 +99,7 @@ int is_number_string(string ss)
 	return 1;
 }
 
-bool is_oparator (char c)
+bool is_oparator(char c)
 {
 	if (c == '<' || c == '>' || c == '!' || c == '-' || c == '+' || c == '*' || c == '/' || c == '=')
 		return true;
@@ -135,10 +135,15 @@ int syntax_error(string message)
 	return -1;
 }
 
-string errorStr[] = {"Unknown Error.", "Not specified the file name.", "The file can not be opened." };
+string errormessage[] = 
+{
+	"Unknown Error.", 
+	"Not specified the file name.", 
+	"The file can not be opened." 
+};
 
 int disp_error(ErrorID id, string s)
 {
-	cout << errorStr[id] << s << endl;
+	cout << errormessage[id] << s << endl;
 	return -1;
 }

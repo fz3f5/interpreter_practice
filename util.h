@@ -13,8 +13,16 @@ using namespace std;
 
 #define MAX_LINE_LENGTH 256
 
-enum error_id { UNKNOWN_ERROR, NO_FILE_NAME, FILE_NOT_OPEN, DUMMY };
+enum error_id 
+{ 
+	UNKNOWN_ERROR, 
+	NO_FILE_NAME, 
+	FILE_NOT_OPEN, 
+	DUMMY 
+};
+
 typedef error_id ErrorID;
+
 
 // bool isParen (char c);
 bool comp_char (char c1, char c2);
