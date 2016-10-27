@@ -71,12 +71,12 @@ int main(int argc, char **argv)
 			continue;
 		}
 		if (comp_str(s, "printstack") || comp_str(s, "ps")) { 
-			printstack(Stck, "Stck");
-			printstack(OpStck, "OpStck");
+			print_stack(Stck, "Stck");
+			print_stack(OpStck, "OpStck");
 			continue;
 		}
 		if (comp_str(s, "printvar") || comp_str(s, "pv")) {  
-			printvarmap();
+			print_variable();
 			continue;
 		}
 		if (comp_str(s, "stackstat") || comp_str(s, "ss")) { 

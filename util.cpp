@@ -101,8 +101,11 @@ int is_number_string(string ss)
 
 bool is_oparator (char c)
 {
-	if (c == '<' || c == '>')
+	if (c == '<' || c == '>' || c == '!' || c == '-' || c == '+' || c == '*' || c == '/' || c == '=')
 		return true;
+	else
+		return false;
+/*
 	if (c == '!')
 		return true;
 	if (c == '-' || c == '+')
@@ -112,6 +115,7 @@ bool is_oparator (char c)
 	if (c == '=')
 		return true;
 	return false;
+*/
 }
 
 

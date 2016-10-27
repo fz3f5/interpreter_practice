@@ -10,7 +10,7 @@ using namespace std;
 vector <Token> TokenList;
 Token prevTok;
 
-Token getNextToken (vector <Token> & tknList) 
+Token get_nexttoken(vector <Token> & tknList) 
 {
 	if (tknList.size() == 0) 
 		return Token (NomoreToken);
@@ -22,67 +22,67 @@ Token getNextToken (vector <Token> & tknList)
 }
 
 
-void backToken (Token tok, vector<Token> & tknList)
+void back_token (Token tok, vector<Token> & tknList)
 {
 	tknList.insert(tknList.begin(), tok);
 }
 
-TokenType get1stTokenType (string src)
+TokenType get_first_tokentype(string src)
 {
 	vector<Token> tokenList;
-	if (getTokenList(src, tokenList) < 1) 
+	if (get_tokenlist(src, tokenList) < 1) 
 		return Invalid;
-	Token tok = getTokenN(0, tokenList);
-	return tok.getType();
+	Token tok = get_nth_token(0, tokenList);
+	return tok.get_type();
 }
 
-Token getTokenN(int n, vector <Token> tknList)
+Token get_nth_token(int n, vector<Token> tknList)
 {
 	if ((int)(tknList.size()) < n + 1)
-		return Token (Nothing);
+		return Token(Nothing);
 
 	return tknList[n];
 }
 
-int getTokenList (string s, vector<Token> &tknList)
+int get_tokenlist(string s, vector<Token> &tknList)
 {
 	prevTok = Token (Start);
 	tknList.clear();
-	Token tok = getToken(s);
-	while (tok.getType() != NomoreToken) {
+	Token tok = get_token(s);
+	while (tok.get_type() != NomoreToken) {
 		tknList.push_back(tok);
 		prevTok = tok;
-		tok = getToken ("");
+		tok = get_token("");
 	}
 	return tknList.size();
 }
 
-void dispTokenList (vector<Token> tknList, string name)
+void disp_tokenlist(vector<Token> tknList, string name)
 { 
 	cout << "=== Token List(" << name << ") Top ===" << endl;
 	vector<Token>::iterator itr;
 	for (itr = tknList.begin(); itr != tknList.end(); ++itr) {
 		Token tok = *itr;
-		tok.printToken();
+		tok.print_token();
 	}
 	cout << "--- Token List End ---" << endl;
 }
 
 bool isCommandOrAssign (Token tok)
 {
-	TokenType tt = tok.getType();
+	TokenType tt = tok.get_type();
 	if (tt > StrLiteral) 
 		return true;
 	return false;
 }
 
-Token getToken (string s)
+Token get_token(string s)
 {
 	static string srcstr;
 	string tokenstr;
 
 	if (isCommandOrAssign (prevTok))
-		prevTok.setType (Start);
+		prevTok.set_type(Start);
 
 	string ss = trim_start (s);
 	srcstr += ss;
@@ -92,7 +92,7 @@ Token getToken (string s)
 		return Token (NomoreToken);
 
 	TokenPos tp = Middle;
-	if (prevTok.getType() == Start)
+	if (prevTok.get_type() == Start)
 		tp = Top;
 	else if (srcstr.length() < 2)
 		tp = EndToken;
@@ -110,11 +110,11 @@ Token getToken (string s)
 		srcstr = srcstr.substr (2, srcstr.length()-2);
 		return Token (NotEqual, tp);
 	}
-	if (c1 == '-' && !(prevTok.isStartToken())) {
+	if (c1 == '-' && !(prevTok.is_starttoken())) {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (Minus, tp);
 	}
-	if (c1 == '+' && !(prevTok.isStartToken())) {
+	if (c1 == '+' && !(prevTok.is_starttoken())) {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (Plus, tp);
 	}
@@ -255,7 +255,7 @@ Token getToken (string s)
 	return Token (tokenstr, tp);
 }
 
-bool Token::isStartToken()
+bool Token::is_starttoken()
 {
 	if (type == Start)
 		return true;
@@ -268,12 +268,12 @@ bool Token::isStartToken()
 	return false;
 }
 
-void printTokenValOrLiteral (Token tt, bool crlf)
+void print_value_or_literal(Token tt, bool crlf)
 {
-	if (tt.getType() == StrLiteral)
-		cout << tt.getSymbol();
+	if (tt.get_type() == StrLiteral)
+		cout << tt.get_symbol();
 	else
-		cout << tt.getValue();
+		cout << tt.get_value();
 	if (crlf)
 		cout << endl;
 	
@@ -285,7 +285,7 @@ string tokenPosName[] = {
 	"Top", "AfterLParen", "AfterAssign", "Middle", "EndToken" 
 };
 
-void Token::printToken()
+void Token::print_token()
 {
 	if (type == Value) {
 		cout << "Value:" << value << "[" << tokenPosName[position] << "]" << endl;

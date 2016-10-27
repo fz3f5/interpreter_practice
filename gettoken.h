@@ -8,7 +8,6 @@
 #include <string>
 #include <cctype>
 #include <stack>
-
 using namespace std;
 
 typedef enum tokenType 
@@ -23,64 +22,63 @@ class Token {
 	double value;
 	TokenPos position;
 public:
-	Token () { value = 0.0; };
-	Token (TokenType t, string s, double v, TokenPos pos = Middle) {
+	Token() { value = 0.0; };
+	Token(TokenType t, string s, double v, TokenPos pos = Middle) {
 		type = t;
 		symbol = s;
 		value = v;
 		position = pos;
 	};
-	Token (TokenType t, double v, TokenPos pos = Middle) {
+	Token(TokenType t, double v, TokenPos pos = Middle) {
 		type = t;
 		value = v;
 		position = pos;
 	};
-	Token (double v, TokenPos pos = Middle) {
+	Token(double v, TokenPos pos = Middle) {
 		value = v;
 		type = Value;
 		position = pos;
 	};
-	Token (TokenType t, TokenPos pos = Middle) {
+	Token(TokenType t, TokenPos pos = Middle) {
 		type = t;
 		value = 0.0;
 		position = pos;
 	};
-	Token (TokenType t, string s, TokenPos pos = Middle) {
+	Token(TokenType t, string s, TokenPos pos = Middle) {
 		type = t;
 		symbol = s;
 		value = 0.0;
 		position = pos;
 	};
-	Token (string s, TokenPos pos = Middle) {
+	Token(string s, TokenPos pos = Middle) {
 		symbol = s;
 		type = Symbol;
 		value = 0.0;
 		position = pos;
 	};
 	
-	TokenType getType() { return type; };
-	void setType(TokenType t) { type = t; };
-	string getSymbol() { return symbol; };
-	double getValue() { return value; };
-	void setValue(double v) { value = v; };
-	TokenPos getPosition() { return position; };
-	bool isStartToken();
-	void printToken();
+	TokenType get_type() { return type; };
+	void set_type(TokenType t) { type = t; };
+	string get_symbol() { return symbol; };
+	double get_value() { return value; };
+	void set_value(double v) { value = v; };
+	TokenPos get_position() { return position; };
+	bool is_starttoken();
+	void print_token();
 };
 
 extern vector <Token> TokenList;
 extern bool token_stat;
 extern bool stack_stat;
 
-Token getNextToken (vector<Token> & tknList);
-void backToken (Token tok, vector<Token> & tknList);
-TokenType get1stTokenType (string src);
-
-void backToken (Token tok);
-Token getTokenN (int n, vector<Token> tknList);
-int getTokenList (string s, vector<Token> & tknList);
-Token getToken (string s);
-void dispTokenList (vector<Token> tknList, string name);
-void printTokenValOrLiteral (Token tt, bool crlf=false);
+Token get_nexttoken(vector<Token> & tknList);
+void back_token(Token tok, vector<Token> & tknList);
+TokenType get_first_tokentype(string src);
+//void back_token (Token tok);
+Token get_nth_token(int n, vector<Token> tknList);
+int get_tokenlist(string s, vector<Token> & tknList);
+Token get_token(string s);
+void disp_tokenlist(vector<Token> tknList, string name);
+void print_value_or_literal(Token tt, bool crlf=false);
 
 #endif

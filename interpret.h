@@ -1,8 +1,8 @@
 //
-// interpreter.h
+// interpret.h
 //
-#ifndef INTERPRETER_H
-#define INTERPRETER_H
+#ifndef INTERPRET_H
+#define INTERPRET_H
 
 #include <iostream>
 #include <sstream>
@@ -14,12 +14,12 @@
 #include <cctype>
 #include "gettoken.h"
 
-int statement (string s = "");
-template <class T> Token getTopElem(T &Stck);
-void printstack(stack<Token> Stck, string message);
-void printvarmap();
+int statement(string s = "");
+template<class T> Token get_top_elem(T &Stck);
+void print_stack(stack<Token> Stck, string message);
+void print_variable();
 Token expression(vector<Token> ExTokenList);
-int execSrcLine(string sourceline);
+int exec_source(string sourceline);
 
 extern map<string, double> varmap;
 extern stack<Token> Stck;

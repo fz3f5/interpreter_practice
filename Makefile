@@ -14,8 +14,8 @@ source.o: source.cpp
 gettoken.o: gettoken.cpp
 	g++ -c gettoken.cpp -o gettoken.o
 
-interptet.o: interpret.cpp
-	g++ -c interptet.cpp -o interpret.o
+interpret.o: interpret.cpp
+	g++ -c interpret.cpp -o interpret.o
 
 util.o: util.cpp
 	g++ -c util.cpp -o util.o
