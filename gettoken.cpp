@@ -1,67 +1,66 @@
-//
-// gettoken.cpp
-//
+/*
+ *  gettoken.cpp
+ */
 #include <vector>
 #include "gettoken.h"
 #include "util.h"
-
 using namespace std;
 
 vector<Token> TokenList;
 Token prevTok;
 
-Token get_nexttoken(vector <Token> & tknList) 
+Token get_nexttoken(vector<Token> &list) 
 {
-	if (tknList.size() == 0) 
-		return Token (NomoreToken);
+	if (list.size() == 0) 
+		return Token(NomoreToken);
 
-	Token tok = tknList[0];
-	tknList.erase (tknList.begin());
+	Token tok = list[0];
+	list.erase(list.begin());
 
 	return tok;
 }
 
 
-void back_token (Token tok, vector<Token> & tknList)
+void back_token(Token tok, vector<Token> &list)
 {
-	tknList.insert(tknList.begin(), tok);
+	list.insert(list.begin(), tok);
 }
 
 TokenType get_first_tokentype(string src)
 {
-	vector<Token> tokenList;
-	if (get_tokenlist(src, tokenList) < 1) 
+	vector<Token> list;
+	if (get_tokenlist(src, list) < 1) 
 		return Invalid;
-	Token tok = get_nth_token(0, tokenList);
+	Token tok = get_nth_token(0, list);
 	return tok.get_type();
 }
 
-Token get_nth_token(int n, vector<Token> tknList)
+Token get_nth_token(int n, vector<Token> list)
 {
-	if ((int)(tknList.size()) < n + 1)
+	if ((int)(list.size()) < n + 1)
 		return Token(Nothing);
 
-	return tknList[n];
+	return list[n];
 }
 
-int get_tokenlist(string s, vector<Token> &tknList)
+int get_tokenlist(string s, vector<Token> &list)
 {
-	prevTok = Token (Start);
-	tknList.clear();
+	prevTok = Token(Start);
+	list.clear();
 	Token tok = get_token(s);
 	while (tok.get_type() != NomoreToken) {
-		tknList.push_back(tok);
+		list.push_back(tok);
 		prevTok = tok;
 		tok = get_token("");
 	}
-	return tknList.size();
+	return list.size();
 }
 
-void disp_tokenlist(vector<Token> tknList, string name)
+void disp_tokenlist(vector<Token> list, string name)
 { 
 	cout << "=== Token List(" << name << ") Top ===" << endl;
 	vector<Token>::iterator itr;
-	for (itr = tknList.begin(); itr != tknList.end(); ++itr) {
+	for (itr = list.begin(); itr != list.end(); ++itr) {
 		Token tok = *itr;
 		tok.print_token();
 	}
@@ -279,10 +278,52 @@ void print_value_or_literal(Token tt, bool crlf)
 	
 }
 
-string TokenTypeName[] = { "Start", "Invalid", "Nothing", "NomoreToken", "Value", "Variable", "Symbol", "StrLiteral", "LParen (", "RParen )", "Comma", "*(Mult)", "/(Divide)", "+(Plus", "-(Minus)", "<(Smaller)", ">(Greater)", "=(Equal)", "!=(NotEqual)", "=(Assign)", "Cmd", "End", "Print", "Println", "Printspc", "Call", "Sub", "Enddef", "If", "Then", "Else", "Endif", "For", "To", "Next" };
+string TokenTypeName[] = 
+{ 
+	"Start", 
+	"Invalid", 
+	"Nothing", 
+	"NomoreToken", 
+	"Value", 
+	"Variable", 
+	"Symbol", 
+	"StrLiteral", 
+	"LParen (", 
+	"RParen )", 
+	"Comma", 
+	"*(Mult)", 
+	"/(Divide)", 
+	"+(Plus", 
+	"-(Minus)", 
+	"<(Smaller)", 
+	">(Greater)", 
+	"=(Equal)", 
+	"!=(NotEqual)", 
+	"=(Assign)", 
+	"Cmd", 
+	"End", 
+	"Print", 
+	"Println", 
+	"Printspc", 
+	"Call", 
+	"Sub", 
+	"Enddef", 
+	"If", 
+	"Then", 
+	"Else", 
+	"Endif", 
+	"For", 
+	"To", 
+	"Next" 
+};
 
-string tokenPosName[] = {
-	"Top", "AfterLParen", "AfterAssign", "Middle", "EndToken" 
+string tokenPosName[] = 
+{
+	"Top", 
+	"AfterLParen", 
+	"AfterAssign", 
+	"Middle", 
+	"EndToken" 
 };
 
 void Token::print_token()
@@ -301,5 +342,3 @@ void Token::print_token()
 	}
 	cout << TokenTypeName[type] << "[" << tokenPosName[position] << "]" << endl;
 }
-
-

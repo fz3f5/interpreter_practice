@@ -18,9 +18,9 @@ bool comp_str(string s1, string s2)
 	return equal(s1.begin(), s1.end(), s2.begin(), comp_char);
 }
 
-string::iterator search_str(string &str, const string &substr) 
+string::iterator search_str(string &str, const string &key) 
 {
-	return search (str.begin(), str.end(), substr.begin(), substr.end(), comp_char);
+	return search (str.begin(), str.end(), key.begin(), key.end(), comp_char);
 }
 
 string trim(string s)

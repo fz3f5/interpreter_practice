@@ -16,11 +16,11 @@ int load_source_file(string cmdline)
 	char buff[MAX_LINE_LENGTH];
 	strcpy(buff, cmdline.c_str());
 	char seps[12] = " ,\t\n"; // separate　" " or "," or "\t" or "\n"
-	char *token = strtok(buff, seps); // seps == load ?
+	char *token = strtok(buff, seps); // seps == load 
 	if(token == NULL) { 
 		return disp_error();
 	}
-	// get the file name
+	/* get the file name */
 	token = strtok(NULL, seps);   // file name ??
 	if(token == NULL) {
 		return disp_error(NO_FILE_NAME);
@@ -54,9 +54,9 @@ int load_source_file(string cmdline)
 void disp_source_file()
 {
 	vector<string>::iterator itr;
-	int linenumber = 0;
+	int num = 0;
 	for (itr = sourcelist.begin(); itr != sourcelist.end(); ++itr) {
-		cout << setw(3) << ++linenumber << ":";
+		cout << setw(3) << ++num << ":";
 		cout << *itr << " " << endl;
 	}
 }

@@ -609,7 +609,7 @@ int exec_source(string sourceline)
 }
 
 
-int statement (string statementLine)
+int statement(string statementLine)
 {
 	if (f_direct_mode) {
 		exec_source(statementLine);
@@ -677,7 +677,3 @@ void print_variable()
 	cout << "--- Variable List ---" << endl;
 	cout << "\n";
 }
-
-
-		 
-		

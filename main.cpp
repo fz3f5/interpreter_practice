@@ -1,6 +1,6 @@
-//
-// main.cpp 
-//
+/*
+ *  main.cpp 
+ */
 #include <clocale>
 #include "source.h"
 #include "gettoken.h"
@@ -8,14 +8,20 @@
 #include "util.h"
 using namespace std;
 
-/*  options 
+
+/* ----------------------------------------------------------------
+ * ========================================================
+ *  options                                                
+ * ========================================================
  *  token_stat     - Display the token "true"
  *  stack_stat     - Display the stack "true"
  *  disp_line      - Display the line "true"
  *  f_direct_mode  - Change the direct execution mode "true"
  * 
  *
+ * ========================================================
  *  usage
+ * ========================================================
  *  "quit" or "exit"      - exit from the commandline
  *  "version"             - display the version
  *  "load"                - load the source file
@@ -26,6 +32,7 @@ using namespace std;
  *  "tokenstat"           - turn "ON" and "OFF" the token output
  *  "displine"            - turn "ON" and "OFF" the line output
  *  "run"                 - run the source file
+ * ------------------------------------------------------------------
  */
 
 bool token_stat = false;
@@ -40,7 +47,9 @@ int main(int argc, char **argv)
 {
  	string s;
 	char buff[MAX_LINE_LENGTH];
- 
+
+    // performance (- . -);
+	
 	if (argc > 1) {
 		string filename = "load" + string(argv[1]);
 		init_load();
