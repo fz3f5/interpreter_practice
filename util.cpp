@@ -66,7 +66,7 @@ string strip_str(string s)
 	return result;
 }
 
-void remove_last_CRLF (char *buff)
+void remove_last_CRLF(char *buff)
 {
 	int len = strlen(buff);
 	if (buff[len-1] == 0xd || buff[len-1] == 0xa)

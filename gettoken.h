@@ -51,11 +51,11 @@ typedef enum tokenType
 
 typedef enum tokenPos
 { 
-	Top, 
-	AfterLParen, 
-	AfterAssign, 
-	Middle, 
-	EndToken 
+	TOP, 
+	AFTER_L_PAREN, 
+	AFTER_ASSIGN, 
+	MIDDLE, 
+	END_TOKEN 
 } TokenPos;
 
 
@@ -66,34 +66,34 @@ class Token {
 	TokenPos position;
 public:
 	Token() { value = 0.0; };
-	Token(TokenType t, string s, double v, TokenPos pos = Middle) {
+	Token(TokenType t, string s, double v, TokenPos pos = MIDDLE) {
 		type = t;
 		symbol = s;
 		value = v;
 		position = pos;
 	};
-	Token(TokenType t, double v, TokenPos pos = Middle) {
+	Token(TokenType t, double v, TokenPos pos = MIDDLE) {
 		type = t;
 		value = v;
 		position = pos;
 	};
-	Token(double v, TokenPos pos = Middle) {
+	Token(double v, TokenPos pos = MIDDLE) {
 		value = v;
 		type = Value;
 		position = pos;
 	};
-	Token(TokenType t, TokenPos pos = Middle) {
+	Token(TokenType t, TokenPos pos = MIDDLE) {
 		type = t;
 		value = 0.0;
 		position = pos;
 	};
-	Token(TokenType t, string s, TokenPos pos = Middle) {
+	Token(TokenType t, string s, TokenPos pos = MIDDLE) {
 		type = t;
 		symbol = s;
 		value = 0.0;
 		position = pos;
 	};
-	Token(string s, TokenPos pos = Middle) {
+	Token(string s, TokenPos pos = MIDDLE) {
 		symbol = s;
 		type = Symbol;
 		value = 0.0;

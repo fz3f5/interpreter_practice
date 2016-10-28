@@ -60,5 +60,3 @@ void disp_source_file()
 		cout << *itr << " " << endl;
 	}
 }
-	
-	

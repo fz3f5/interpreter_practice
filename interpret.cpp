@@ -48,7 +48,7 @@ Token expression (vector <Token> tknList)
 		string csm = currentToken.get_symbol();
 		if (ctt == Symbol && csm[0] == '-') {
 			string tmpsymbol = csm.substr(1, csm.length()-1);
-			Token tmpToken = Token (Symbol, tmpsymbol, Top);
+			Token tmpToken = Token (Symbol, tmpsymbol, TOP);
 			tmpToken = checkAndRegisterVar(tmpToken);
 			double v = tmpToken.get_value();
 			currentToken = Token (-1 * v);

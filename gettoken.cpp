@@ -90,11 +90,11 @@ Token get_token(string s)
 	if (srcstr.length() == 0) 
 		return Token (NomoreToken);
 
-	TokenPos tp = Middle;
+	TokenPos tp = MIDDLE;
 	if (prevTok.get_type() == Start)
-		tp = Top;
+		tp = TOP;
 	else if (srcstr.length() < 2)
-		tp = EndToken;
+		tp = END_TOKEN;
 
 	int pos = 0; // current position
 	char c1 = srcstr[pos++];
@@ -154,7 +154,7 @@ Token get_token(string s)
 		while (true) {
 			if ((int)(srcstr.length()) == pos) {
 				srcstr = "";
-				tp = EndToken;
+				tp = END_TOKEN;
 				break;
 			}
 			char c = srcstr[pos++];
@@ -175,7 +175,7 @@ Token get_token(string s)
 		while (true) {
 			if ((int)(srcstr.length()) == pos) {
 				srcstr = "";
-				return Token(atof(tokenstr.c_str()), EndToken);
+				return Token(atof(tokenstr.c_str()), END_TOKEN);
 			}
 			char c = srcstr[pos++];
 			if (c == '.' || isdigit(c)) 
@@ -196,7 +196,7 @@ Token get_token(string s)
  	  while (true) {
 		if ((int)(srcstr.length()) == pos) {
 			srcstr = "";
-			tp = EndToken;
+			tp = END_TOKEN;
 			break;
 		}
 		char c = srcstr[pos++];
@@ -306,7 +306,7 @@ string TokenTypeName[] =
 	"Println", 
 	"Printspc", 
 	"Call", 
-	"Sub", 
+	"Def", 
 	"Enddef", 
 	"If", 
 	"Then", 
@@ -319,11 +319,11 @@ string TokenTypeName[] =
 
 string tokenPosName[] = 
 {
-	"Top", 
-	"AfterLParen", 
-	"AfterAssign", 
-	"Middle", 
-	"EndToken" 
+	"TOP", 
+	"AFTER_L_PAREN", 
+	"AFTER_ASSIGN", 
+	"MIDDLE", 
+	"END_TOKEN" 
 };
 
 void Token::print_token()
