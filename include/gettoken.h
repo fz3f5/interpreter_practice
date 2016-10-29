@@ -38,7 +38,7 @@ typedef enum tokenType
 	 Println, 
 	 Printspc, 
 	 Call, 
-	 Sub, 
+	 Def, 
 	 Enddef, 
 	 If, 
 	 Then, 

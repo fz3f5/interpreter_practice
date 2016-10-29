@@ -232,7 +232,7 @@ Token get_token(string s)
 	if (comp_str(tokenstr, "call"))
 		return Token (Call, tp);
 	if (comp_str(tokenstr, "def"))
-		return Token (Sub, tp);
+		return Token (Def, tp);
 	if (comp_str(tokenstr, "enddef"))
 		return Token (Enddef, tp);
 	if (comp_str(tokenstr, "if"))

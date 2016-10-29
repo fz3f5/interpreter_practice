@@ -241,7 +241,7 @@ int do_call_statement()
 	while (true) {
 		src = sourcelist[invokedLine];
 		int n = get_tokenlist(src, TokenList);
-		if (get_nexttoken(TokenList).get_type() == Sub) {
+		if (get_nexttoken(TokenList).get_type() == Def) {
 			if (n < 2) 
 				return syntax_error("Subroutine can not be found");
 			string symbol = get_nexttoken(TokenList).get_symbol();

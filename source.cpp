@@ -47,7 +47,7 @@ int load_source_file(string cmdline)
 		}
 	}
 	fin.close();
-	cout << "load the " << filename << "(" << lines << "lines)" << endl;
+	cout << "load the " << filename << "( " << lines << " lines)" << endl;
 	return 0;
 }
 
