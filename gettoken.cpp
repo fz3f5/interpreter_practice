@@ -2,8 +2,8 @@
  *  gettoken.cpp
  */
 #include <vector>
-#include "gettoken.h"
-#include "util.h"
+#include "include/gettoken.h"
+#include "include/util.h"
 using namespace std;
 
 vector<Token> TokenList;
@@ -19,7 +19,6 @@ Token get_nexttoken(vector<Token> &list)
 
 	return tok;
 }
-
 
 void back_token(Token tok, vector<Token> &list)
 {
@@ -67,7 +66,7 @@ void disp_tokenlist(vector<Token> list, string name)
 	cout << "--- Token List End ---" << endl;
 }
 
-bool isCommandOrAssign (Token tok)
+bool is_command_or_assign(Token tok)
 {
 	TokenType tt = tok.get_type();
 	if (tt > StrLiteral) 
@@ -80,15 +79,15 @@ Token get_token(string s)
 	static string srcstr;
 	string tokenstr;
 
-	if (isCommandOrAssign (prevTok))
+	if (is_command_or_assign(prevTok))
 		prevTok.set_type(Start);
 
-	string ss = trim_start (s);
+	string ss = trim_start(s);
 	srcstr += ss;
-	s = trim (srcstr);
+	s = trim(srcstr);
 	srcstr = s;
 	if (srcstr.length() == 0) 
-		return Token (NomoreToken);
+		return Token(NomoreToken);
 
 	TokenPos tp = MIDDLE;
 	if (prevTok.get_type() == Start)

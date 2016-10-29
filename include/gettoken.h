@@ -114,14 +114,14 @@ extern vector <Token> TokenList;
 extern bool token_stat;
 extern bool stack_stat;
 
-Token get_nexttoken(vector<Token> & tknList);
-void back_token(Token tok, vector<Token> & tknList);
+Token get_nexttoken(vector<Token> &list);
+void back_token(Token tok, vector<Token> &list);
 TokenType get_first_tokentype(string src);
 //void back_token (Token tok);
-Token get_nth_token(int n, vector<Token> tknList);
-int get_tokenlist(string s, vector<Token> & tknList);
+Token get_nth_token(int n, vector<Token> list);
+int get_tokenlist(string s, vector<Token> &list);
 Token get_token(string s);
-void disp_tokenlist(vector<Token> tknList, string name);
+void disp_tokenlist(vector<Token> list, string name);
 void print_value_or_literal(Token tt, bool crlf=false);
 
 #endif

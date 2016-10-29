@@ -1,7 +1,7 @@
 //
 // util.cpp
 //
-#include "util.h"
+#include "include/util.h"
 #include <string.h>  /* Need to include after versin g++4.3 */
 using namespace std;
 
@@ -119,7 +119,7 @@ bool is_oparator(char c)
 }
 
 
-bool is_paren (char c)
+bool is_paren(char c)
 {
 	if (c == '(' || c == ')')
 		return true;

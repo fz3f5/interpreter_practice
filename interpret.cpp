@@ -1,21 +1,20 @@
-//
-// interpret.cpp
-//
+/*
+ *  interpret.cpp
+ */
 
-#include "source.h"
-#include "gettoken.h"
-#include "interpret.h"
-#include "util.h"
-
+#include "include/source.h"
+#include "include/gettoken.h"
+#include "include/interpret.h"
+#include "include/util.h"
 using namespace std;
 
 map<string, double> varmap;
 stack<Token> Stck;
 stack<Token> OpStck;
 
-static Token checkAndRegisterVar (Token token0)
+static Token check_and_register_var(Token tok)
 {
-	string symbol = token0.get_symbol();
+	string symbol = tok.get_symbol();
 	map<string, double>::iterator itr;
 	itr = varmap.find(symbol);
 	double v = 0.0;
@@ -28,12 +27,12 @@ static Token checkAndRegisterVar (Token token0)
 	return (Token (Value, symbol, v));
 }
 
-Token expression (vector <Token> tknList)
+Token expression(vector<Token> tknList)
 {
-	stack <Token> exstck;
-	stack <Token> exopstck;
+	stack<Token> exstck;
+	stack<Token> exopstck;
 
-	while (true)
+	while(true)
 	{
 		if (stack_stat) {
 			print_stack(exstck, "exstck");
@@ -49,13 +48,13 @@ Token expression (vector <Token> tknList)
 		if (ctt == Symbol && csm[0] == '-') {
 			string tmpsymbol = csm.substr(1, csm.length()-1);
 			Token tmpToken = Token (Symbol, tmpsymbol, TOP);
-			tmpToken = checkAndRegisterVar(tmpToken);
+			tmpToken = check_and_register_var(tmpToken);
 			double v = tmpToken.get_value();
 			currentToken = Token (-1 * v);
 			ctt = Value;
 		}
 		if (ctt == Symbol) {
-			currentToken = checkAndRegisterVar(currentToken);
+			currentToken = check_and_register_var(currentToken);
 			ctt = currentToken.get_type();
 		}
 		if (ctt == NomoreToken) {
@@ -160,17 +159,17 @@ Token expression (vector <Token> tknList)
 	return (Token(Invalid));
 }
 
-Token strexpression (vector<Token> tknList) 
+Token str_expression(vector<Token> tknList) 
 {
 	string StrResult = "";
-	bool fPlus = true;
+	bool f_plus = true;
 
 	while (true) {
 		Token currentToken = get_nexttoken(tknList);
 		TokenType ctt = currentToken.get_type();
 
 		if (ctt == Symbol) {
-			currentToken = checkAndRegisterVar(currentToken);
+			currentToken = check_and_register_var(currentToken);
 			ctt = currentToken.get_type();
 		}
 
@@ -179,39 +178,39 @@ Token strexpression (vector<Token> tknList)
 		}
 
 		if (ctt == StrLiteral) {
-			if (fPlus) {
+			if (f_plus) {
 				StrResult += currentToken.get_symbol();
-				fPlus = false;
+				f_plus = false;
 			}
 			continue;
 		}
 		if (ctt == Value) {
-			if (fPlus) {
+			if (f_plus) {
 				ostringstream ostr;
 				double v = currentToken.get_value();
 				ostr << v;
 				StrResult += ostr.str();
-				fPlus = false;
+				f_plus = false;
 			}
 			continue;
 		}
 		if (ctt == Plus) {
-			fPlus = true;
+			f_plus = true;
 			continue;
 		}
 	}
 	return Token(Invalid);
 }
 
-static int callCount = 0;
+static int callcnt = 0;
 
-int doCallStatement()
+int do_call_statement()
 {
-	if (callCount > 0) {
+	if (callcnt > 0) {
 		cout << "call can not be nested" << endl;
 		return -1;
 	}
-	callCount += 1;
+	callcnt += 1;
 
 	int returnLine = currentline;
 	Token token0 = get_nexttoken(TokenList);
@@ -228,7 +227,7 @@ int doCallStatement()
 		if (tt == RParen || tt == NomoreToken)
 			break;
 		if (tt == Variable || tt == Symbol) {
-			tok = checkAndRegisterVar(tok);
+			tok = check_and_register_var(tok);
 			paraValue = tok.get_value();
 			parameterList.insert(parameterList.end(), paraValue);
 		}
@@ -302,19 +301,19 @@ int doCallStatement()
 	return 0;
 }
 
-static int forCount = 0;
+static int forcnt = 0;
 
-int doForStatement()
+int do_for_statement()
 {
-	if (forCount > 0) {
+	if (forcnt > 0) {
 		cout << "for can not be nested" << endl;
 		return -1;
 	}
-	forCount += 1;
+	forcnt += 1;
 
 	Token token0 = get_nexttoken(TokenList);
 	Token token1 = get_nexttoken(TokenList);
-	token1 = checkAndRegisterVar(token1);
+	token1 = check_and_register_var(token1);
 	string counterVarName = token1.get_symbol();
 	Token token2 = get_nexttoken(TokenList);
 	vector<Token> exTokenList;
@@ -357,22 +356,22 @@ int doForStatement()
 		string src = sourcelist[tmpLine++];
 		if (exec_source(src))
 			return 0;
-		callCount -= 1;
+		callcnt -= 1;
 		varmap[counterVarName] = ++counter;
 	} while (counter < forto);
 
 	return 0;
 }
 
-static int ifCount = 0;
+static int ifcnt = 0;
 
-int doIfStatement()
+int do_if_statement()
 {
-	if (ifCount > 0) {
+	if (ifcnt > 0) {
 		cout << "If can not be nested" << endl;
 		return -1;
 	}
-	ifCount += 1;
+	ifcnt += 1;
 
 	Token optok;
 	Token tok = get_nexttoken(TokenList);
@@ -449,14 +448,14 @@ int doIfStatement()
 }
 
 
-int doAssign()
+int do_assign()
 {
 	if (token_stat)
 		disp_tokenlist(TokenList, "TokenList");
 	
 	Token token0 = get_nexttoken(TokenList);
 	string symbol = token0.get_symbol();
-	token0 = checkAndRegisterVar(token0);
+	token0 = check_and_register_var(token0);
 	Token token1 = get_nexttoken(TokenList);
 
 	vector<Token> exTokenList;
@@ -487,9 +486,9 @@ int doAssign()
 	return 0;
 }
 
-int exec_source(string sourceline)
+int exec_source(string srcline)
 {
-	string line = trim(sourceline);
+	string line = trim(srcline);
 	if (line.length() < 1)
 		return 1;
 	if (disp_line)
@@ -552,25 +551,25 @@ int exec_source(string sourceline)
 			Token tok = get_nexttoken(TokenList);
 			exTokenList.insert(exTokenList.end(), tok);
 			if (tok.get_type() == StrLiteral)
-				Stck.push(strexpression(exTokenList));
+				Stck.push(str_expression(exTokenList));
 			else 
 				Stck.push(expression(exTokenList));
 		}
 	} else {
 		if (tt0 == If) {
-			if (doIfStatement())
+			if (do_if_statement())
 				return -1;
 			return 0;
 		} else if (tt0 == Call) {
-			if (doCallStatement())
+			if (do_call_statement())
 				return -1;
 			return 0;
 		} else if (tt0 == For) {
-			if (doForStatement())
+			if (do_for_statement())
 				return -1;
 			return 0;
 		} else if (tt1 == Assign) {
-			doAssign();
+			do_assign();
 			return 0;
 		} else {
 			vector<Token> exTokenList;
@@ -587,7 +586,7 @@ int exec_source(string sourceline)
 			}
 	    if (exTokenList.size() > 0) {
 				if (fStrLiteral)
-					Stck.push(strexpression(exTokenList));
+					Stck.push(str_expression(exTokenList));
 				else 
 					Stck.push(expression(exTokenList));
 			} else {
@@ -609,19 +608,19 @@ int exec_source(string sourceline)
 }
 
 
-int statement(string statementLine)
+int statement(string line)
 {
 	if (f_direct_mode) {
-		exec_source(statementLine);
+		exec_source(line);
 		return 0;
 	}
 
 	while (true) {
 		if (currentline > (int)sourcelist.size() - 1)
 			return 0;
-		callCount = 0;
-		forCount = 0;
-		ifCount = 0;
+		callcnt = 0;
+		forcnt = 0;
+		ifcnt = 0;
 		string str = sourcelist[currentline++];
 		if (exec_source(str))
 			return 0;
@@ -630,9 +629,9 @@ int statement(string statementLine)
 	return 0;
 }
 
-template<class T> Token get_top_elem(T &Stck)
+template<class T> Token get_top_elem(T &Stck)      // change &Stck > &stck ????  Stck is global var?
 {
-	if (Stck.size() < 1) 
+	if(Stck.size() < 1) 
 		return Token(NomoreToken);   
 	Token tok = Stck.top();
 	Stck.pop();
@@ -642,16 +641,16 @@ template<class T> Token get_top_elem(T &Stck)
 extern string TokenTypeName[];
 extern string tokenPosName[];
 
-void print_stack (stack<Token> Stck, string message)
+void print_stack(stack<Token> stck, string message)
 {
-	stack<Token> tmpstck;
+	stack<Token> tmp;
 
-	tmpstck = Stck;
+	tmp = stck;
 	cout << "\n";
 	cout << "=== stack " << message << " Top ===" << endl;
-	int n = (int)tmpstck.size();
+	int n = (int)tmp.size();
 	for (int i = 0; i < n; i++) {
-		Token t = tmpstck.top();
+		Token t = tmp.top();
 		TokenType tt = t.get_type();
 		if (tt == Variable)
 			cout << TokenTypeName[t.get_type()] << "(" << t.get_symbol() << ")" << t.get_value() << endl;
@@ -661,7 +660,7 @@ void print_stack (stack<Token> Stck, string message)
 			cout << TokenTypeName[t.get_type()] << endl;
 		else 
 			cout << TokenTypeName[t.get_type()] << ":" << t.get_value() << endl;
-		tmpstck.pop();
+		tmp.pop();
 	}
 	cout << "--- stack bottom ---" << endl;
 	cout << "\n";

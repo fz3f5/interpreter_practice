@@ -2,10 +2,11 @@
  *  main.cpp 
  */
 #include <clocale>
-#include "source.h"
-#include "gettoken.h"
-#include "interpret.h"
-#include "util.h"
+#include <unistd.h>
+#include "include/source.h"
+#include "include/gettoken.h"
+#include "include/interpret.h"
+#include "include/util.h"
 using namespace std;
 
 
@@ -48,13 +49,22 @@ int main(int argc, char **argv)
  	string s;
 	char buff[MAX_LINE_LENGTH];
 
-    // performance (- . -);
-	
-	if (argc > 1) {
+    // performance (- . -); todo copyright 
+	printf("頑張っています.....\nちょっと待ってください......\n");
+	for(int i = 0; i < 5; i++) {
+		cout << "wait for " << i << "..." << endl;
+		sleep(1);
+		if(i == 4) cout << "起動中....." << endl;
+	}
+
+
+	if(argc > 1) {
 		string filename = "load" + string(argv[1]);
 		init_load();
 		load_source_file(filename);
 	}
+
+	sleep(3);
 
 	while(true)
 	{

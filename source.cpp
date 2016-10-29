@@ -2,9 +2,9 @@
  *  source.cpp
  */
 #include <string.h> /* Need to include after "g++-4.3" version */
-#include "source.h"
-#include "interpret.h"
-#include "util.h"
+#include "include/source.h"
+#include "include/interpret.h"
+#include "include/util.h"
 using namespace std;
 
 vector<string> sourcelist;
