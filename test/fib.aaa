@@ -1,0 +1,25 @@
+//fib
+total = 2
+a = 0
+b = 1
+
+println "1"
+println "1"
+println total
+
+for i=0 to 100
+	println total = total  + a + b
+	a = a + b
+	b = a + b
+next i
+
+
+
+println total
+
+
+
+ 
+for i=0 to 5
+    print total
+next i 

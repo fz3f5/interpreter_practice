@@ -27,8 +27,8 @@ int load_source_file(string cmdline)
 	}
 	char filename[MAX_LINE_LENGTH];
 	strcpy(filename, token);
-	if(strstr(filename, ".asm") == NULL) {
-		strcat(filename, ".asm");
+	if(strstr(filename, ".aaa") == NULL) {
+		strcat(filename, ".aaa");
 	}
 	ifstream fin(filename, ios::in);  // open the inputfile
 	if(!fin) {

@@ -1,0 +1,7 @@
+total = 4
+i = 1
+
+for i=0 to 100
+    println total = total + i
+next i 
+ 
