@@ -1,25 +1,18 @@
 //fib
+displine
 total = 2
 a = 0
 b = 1
-
-println "1"
-println "1"
-println total
-
+n = 2
+n1 = 0
 for i=0 to 100
-	println total = total  + a + b
-	a = a + b
-	b = a + b
+	n1 = n
+	n = n - n1
+	println n
+	prinln n1
 next i
 
 
 
-println total
 
 
-
- 
-for i=0 to 5
-    print total
-next i 

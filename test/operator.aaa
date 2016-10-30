@@ -1,0 +1,25 @@
+// operator sample
+
+a = 200
+b = 100
+
+displine
+// add
+println a + b
+
+// sub
+println a - b
+
+// mult
+println a * b
+
+// div
+println a / b
+
+
+
+// order of operations
+c = 300
+println a + b * c   
+println a / b + c   
+println a / b * c   
