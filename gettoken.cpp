@@ -12,7 +12,7 @@ Token prevTok;
 Token get_nexttoken(vector<Token> &list) 
 {
 	if (list.size() == 0) 
-		return Token(NomoreToken);
+		return Token(NO_MORE_TOKEN);
 
 	Token tok = list[0];
 	list.erase(list.begin());
@@ -29,7 +29,7 @@ TokenType get_first_tokentype(string src)
 {
 	vector<Token> list;
 	if (get_tokenlist(src, list) < 1) 
-		return Invalid;
+		return INVALID;
 	Token tok = get_nth_token(0, list);
 	return tok.get_type();
 }
@@ -37,17 +37,17 @@ TokenType get_first_tokentype(string src)
 Token get_nth_token(int n, vector<Token> list)
 {
 	if ((int)(list.size()) < n + 1)
-		return Token(Nothing);
+		return Token(NOTHING);
 
 	return list[n];
 }
 
 int get_tokenlist(string s, vector<Token> &list)
 {
-	prevTok = Token(Start);
+	prevTok = Token(START);
 	list.clear();
 	Token tok = get_token(s);
-	while (tok.get_type() != NomoreToken) {
+	while (tok.get_type() != NO_MORE_TOKEN) {
 		list.push_back(tok);
 		prevTok = tok;
 		tok = get_token("");
@@ -69,7 +69,7 @@ void disp_tokenlist(vector<Token> list, string name)
 bool is_command_or_assign(Token tok)
 {
 	TokenType tt = tok.get_type();
-	if (tt > StrLiteral) 
+	if (tt > STR_LITERAL) 
 		return true;
 	return false;
 }
@@ -80,17 +80,17 @@ Token get_token(string s)
 	string tokenstr;
 
 	if (is_command_or_assign(prevTok))
-		prevTok.set_type(Start);
+		prevTok.set_type(START);
 
 	string ss = trim_start(s);
 	srcstr += ss;
 	s = trim(srcstr);
 	srcstr = s;
 	if (srcstr.length() == 0) 
-		return Token(NomoreToken);
+		return Token(NO_MORE_TOKEN);
 
 	TokenPos tp = MIDDLE;
-	if (prevTok.get_type() == Start)
+	if (prevTok.get_type() == START)
 		tp = TOP;
 	else if (srcstr.length() < 2)
 		tp = END_TOKEN;
@@ -102,51 +102,51 @@ Token get_token(string s)
 		c2 = srcstr[pos];
 	if (c1 == '=' && c2 == '=') { // ==
 		srcstr = srcstr.substr (2, srcstr.length()-2);
-		return Token (Equal, tp);
+		return Token (EQUAL, tp);
 	}
 	if (c1 == '!' && c2 == '=') { // !=
 		srcstr = srcstr.substr (2, srcstr.length()-2);
-		return Token (NotEqual, tp);
+		return Token (NOT_EQUAL, tp);
 	}
 	if (c1 == '-' && !(prevTok.is_starttoken())) {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (Minus, tp);
+		return Token (MINUS, tp);
 	}
 	if (c1 == '+' && !(prevTok.is_starttoken())) {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (Plus, tp);
+		return Token (PLUS, tp);
 	}
 	if (c1 == '<') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (Smaller, tp);
+		return Token (SMALLER, tp);
 	}
 	if (c1 == '>') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (Greater, tp);
+		return Token (GREATER, tp);
 	}
 	if (c1 == '/') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (Divide, tp);
+		return Token (DIVIDE, tp);
 	}
 	if (c1 == '*') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (Mult, tp);
+		return Token (MULT, tp);
 	}
 	if (c1 == '=') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (Assign, tp);
+		return Token (ASSIGN, tp);
 	}
 	if (c1 == '(') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (LParen, tp);
+		return Token (L_PAREN, tp);
 	}
 	if (c2 == ')') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (RParen, tp);
+		return Token (R_PAREN, tp);
 	}
 	if (c1 == ',') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
-		return Token (Comma, tp);
+		return Token (COMMA, tp);
 	}
 	if (c1 == '-' && isalpha(c2)) { // minus symbol
 		tokenstr = c1;
@@ -222,53 +222,53 @@ Token get_token(string s)
 	}
 	
 	if (tokenstr[0] == 0x22) // 0x22 = \"
-		return Token (StrLiteral, strip_str(tokenstr), tp);
+		return Token (STR_LITERAL, strip_str(tokenstr), tp);
 	if (comp_str(tokenstr, "end"))
-		return Token (End, tp);
+		return Token (END, tp);
 	if (comp_str(tokenstr, "print"))
-		return Token (Print, tp);
+		return Token (PRINT, tp);
 	if (comp_str(tokenstr, "println"))
-		return Token (Println, tp);
+		return Token (PRINT_LN, tp);
 	if (comp_str(tokenstr, "call"))
-		return Token (Call, tp);
+		return Token (CALL, tp);
 	if (comp_str(tokenstr, "def"))
-		return Token (Def, tp);
+		return Token (DEF, tp);
 	if (comp_str(tokenstr, "enddef"))
-		return Token (Enddef, tp);
+		return Token (ENDDEF, tp);
 	if (comp_str(tokenstr, "if"))
-		return Token (If, tp);
+		return Token (IF, tp);
 	if (comp_str(tokenstr, "then"))
-		return Token (Then, tp);
+		return Token (THEN, tp);
 	if (comp_str(tokenstr, "else"))
-		return Token (Else, tp);
+		return Token (ELSE, tp);
 	if (comp_str(tokenstr, "endif"))
-		return Token (Endif, tp);
+		return Token (ENDIF, tp);
 	if (comp_str(tokenstr, "for"))
-		return Token (For, tp);
+		return Token (FOR, tp);
 	if (comp_str(tokenstr, "to"))
-		return Token (To, tp);
+		return Token (TO, tp);
 	if (comp_str(tokenstr, "next"))
-		return Token (Next, tp);
+		return Token (NEXT, tp);
 	
 	return Token (tokenstr, tp);
 }
 
 bool Token::is_starttoken()
 {
-	if (type == Start)
+	if (type == START)
 		return true;
-	if (type == LParen)
+	if (type == L_PAREN)
 		return true;
-	if (type == Assign)
+	if (type == ASSIGN)
 		return true;
-	if (type == Comma)
+	if (type == COMMA)
 		return true;
 	return false;
 }
 
 void print_value_or_literal(Token tt, bool crlf)
 {
-	if (tt.get_type() == StrLiteral)
+	if (tt.get_type() == STR_LITERAL)
 		cout << tt.get_symbol();
 	else
 		cout << tt.get_value();
@@ -279,41 +279,41 @@ void print_value_or_literal(Token tt, bool crlf)
 
 string TokenTypeName[] = 
 { 
-	"Start", 
-	"Invalid", 
-	"Nothing", 
-	"NomoreToken", 
-	"Value", 
-	"Variable", 
-	"Symbol", 
-	"StrLiteral", 
-	"LParen (", 
-	"RParen )", 
-	"Comma", 
-	"*(Mult)", 
-	"/(Divide)", 
-	"+(Plus", 
-	"-(Minus)", 
-	"<(Smaller)", 
-	">(Greater)", 
-	"=(Equal)", 
-	"!=(NotEqual)", 
-	"=(Assign)", 
-	"Cmd", 
-	"End", 
-	"Print", 
-	"Println", 
-	"Printspc", 
-	"Call", 
-	"Def", 
-	"Enddef", 
-	"If", 
-	"Then", 
-	"Else", 
-	"Endif", 
-	"For", 
-	"To", 
-	"Next" 
+	"start", 
+	"invalid", 
+	"nothing", 
+	"nomoreToken", 
+	"value", 
+	"variable", 
+	"symbol", 
+	"strLiteral", 
+	"lparen (", 
+	"rparen )", 
+	"comma", 
+	"*(mult)", 
+	"/(divide)", 
+	"+(plus)", 
+	"-(minus)", 
+	"<(smaller)", 
+	">(greater)", 
+	"=(equal)", 
+	"!=(notequal)", 
+	"=(assign)", 
+	"cmd", 
+	"end", 
+	"print", 
+	"println", 
+	"printspc", 
+	"call", 
+	"def", 
+	"enddef", 
+	"if", 
+	"then", 
+	"else", 
+	"endif", 
+	"for", 
+	"to", 
+	"next" 
 };
 
 string tokenPosName[] = 
@@ -327,15 +327,15 @@ string tokenPosName[] =
 
 void Token::print_token()
 {
-	if (type == Value) {
+	if (type == VALUE) {
 		cout << "Value:" << value << "[" << tokenPosName[position] << "]" << endl;
 		return;
 	}
-	if (type == Symbol) {
+	if (type == SYMBOL) {
 		cout << "Symbol:" << symbol << "[" << tokenPosName[position] << "]" << endl;
 		return;
 	}
-	if (type == StrLiteral) {
+	if (type == STR_LITERAL) {
 		cout << "StrLiteral:" << symbol << "[" << tokenPosName[position] << "]" << endl;
 		return;
 	}

@@ -24,7 +24,7 @@ static Token check_and_register_var(Token tok)
 	} else {
 		v = itr->second;
 	}
-	return (Token (Value, symbol, v));
+	return (Token (VALUE, symbol, v));
 }
 
 Token expression(vector<Token> tknList)
@@ -45,22 +45,22 @@ Token expression(vector<Token> tknList)
 		Token currentToken = get_nexttoken(tknList);
 		TokenType ctt = currentToken.get_type();
 		string csm = currentToken.get_symbol();
-		if (ctt == Symbol && csm[0] == '-') {
+		if (ctt == SYMBOL && csm[0] == '-') {
 			string tmpsymbol = csm.substr(1, csm.length()-1);
-			Token tmpToken = Token (Symbol, tmpsymbol, TOP);
+			Token tmpToken = Token (SYMBOL, tmpsymbol, TOP);
 			tmpToken = check_and_register_var(tmpToken);
 			double v = tmpToken.get_value();
 			currentToken = Token (-1 * v);
-			ctt = Value;
+			ctt = VALUE;
 		}
-		if (ctt == Symbol) {
+		if (ctt == SYMBOL) {
 			currentToken = check_and_register_var(currentToken);
 			ctt = currentToken.get_type();
 		}
-		if (ctt == NomoreToken) {
+		if (ctt == NO_MORE_TOKEN) {
 			Token optoken = get_top_elem(exopstck);
 			TokenType optt = optoken.get_type();
-			if (optt == NomoreToken || optt == Assign) {
+			if (optt == NO_MORE_TOKEN || optt == ASSIGN) {
 				exopstck.push(optoken);
 				return exstck.top();
 			}
@@ -69,67 +69,67 @@ Token expression(vector<Token> tknList)
 			ctt = currentToken.get_type();
 			exopstck.push(optoken);
 		}
-		if ((RParen < ctt) && (ctt < Smaller)){
+		if ((R_PAREN < ctt) && (ctt < SMALLER)){
 			exopstck.push(currentToken);
 			continue;
 		}
-		if (ctt == LParen) {
+		if (ctt == L_PAREN) {
 			int nLRaren = 1;
 			vector<Token> tmpTokenList;
 			while (true) {
 				Token tok = get_nexttoken(tknList);
 				TokenType tt = tok.get_type();
-				if (tt == LParen) {
+				if (tt == L_PAREN) {
 					nLRaren += 1;
 				}
-				if (tt == RParen) {
+				if (tt == R_PAREN) {
 					if (--nLRaren == 0)
 						break;
 				}
-				if (tt == NomoreToken)
+				if (tt == NO_MORE_TOKEN)
 					return syntax_error("NO PAREN");
 				tmpTokenList.insert(tmpTokenList.end(), tok);
 			}
 			if (tmpTokenList.size() > 1) {
 				Token tok = expression(tmpTokenList);
-				tok.set_type(Value);
+				tok.set_type(VALUE);
 				tknList.insert(tknList.begin(), tok);
 				continue;
 			} else 
 				exstck.push(tmpTokenList[0].get_value());
 			continue;
 	}
-	if (Minus < ctt && ctt < Assign) {
+	if (MINUS < ctt && ctt < ASSIGN) {
 		exopstck.push(currentToken);
 		continue;
 	}
-	if (ctt == Value || ctt == Variable) {
+	if (ctt == VALUE || ctt == VARIABLE) {
 		Token tok = get_top_elem(exstck);
 		Token optok = get_top_elem(exopstck);
 		TokenType optokt = optok.get_type();
 
-		if ((tok.get_type() == Value || tok.get_type() == Variable) && Minus < optokt && optokt < Assign) {
+		if ((tok.get_type() == VALUE || tok.get_type() == VARIABLE) && MINUS < optokt && optokt < ASSIGN) {
 			double a = currentToken.get_value();
 			double b = tok.get_value();
 			exstck.push(a - b);
 			continue;
 		}
-		if ((tok.get_type() == Value || tok.get_type() == Variable) && (optok.get_type() == Mult || optok.get_type() == Divide)) {
+		if ((tok.get_type() == VALUE || tok.get_type() == VARIABLE) && (optok.get_type() == MULT || optok.get_type() == DIVIDE)) {
 			double a = currentToken.get_value();
 			double b = tok.get_value();
-			if (optok.get_type() == Mult) {
+			if (optok.get_type() == MULT) {
 				exstck.push(a * b);
 				continue;
 			}
-			if (optok.get_type() == Divide) {
+			if (optok.get_type() == DIVIDE) {
 				exstck.push(b / a);
 				continue;
 			}
 		}
-		if ((tok.get_type() == Value || tok.get_type() == Variable) && (optok.get_type() == Plus || optok.get_type() == Minus)) {
+		if ((tok.get_type() == VALUE || tok.get_type() == VARIABLE) && (optok.get_type() == PLUS || optok.get_type() == MINUS)) {
 			Token nexttoken = get_nexttoken(tknList);
 			TokenType ntt = nexttoken.get_type();
-			if (ntt == Mult || ntt == Divide || ntt == RParen) {
+			if (ntt == MULT || ntt == DIVIDE || ntt == R_PAREN) {
 				exstck.push(tok);
 				exopstck.push(optok);
 				back_token(nexttoken, tknList);
@@ -139,24 +139,24 @@ Token expression(vector<Token> tknList)
 				double a = currentToken.get_value();
 				double b = tok.get_value();
 				back_token(nexttoken, tknList);
-				if (optok.get_type() == Plus) {
+				if (optok.get_type() == PLUS) {
 					exstck.push(a + b);
 					continue;
 				}
-				if (optok.get_type() == Minus) {
+				if (optok.get_type() == MINUS) {
 					exstck.push(b - a);
 					continue;
 				}
 			}
 		}
-		if (tok.get_type() != NomoreToken) 
+		if (tok.get_type() != NO_MORE_TOKEN) 
 			exstck.push(tok);
-		if (optok.get_type() != NomoreToken)
+		if (optok.get_type() != NO_MORE_TOKEN)
 			exstck.push(optok);
 		exstck.push(currentToken);
 	}
 	}
-	return (Token(Invalid));
+	return (Token(INVALID));
 }
 
 Token str_expression(vector<Token> tknList) 
@@ -168,23 +168,23 @@ Token str_expression(vector<Token> tknList)
 		Token currentToken = get_nexttoken(tknList);
 		TokenType ctt = currentToken.get_type();
 
-		if (ctt == Symbol) {
+		if (ctt == SYMBOL) {
 			currentToken = check_and_register_var(currentToken);
 			ctt = currentToken.get_type();
 		}
 
-		if (ctt == NomoreToken) {
-			return (Token(StrLiteral, StrResult));
+		if (ctt == NO_MORE_TOKEN) {
+			return (Token(STR_LITERAL, StrResult));
 		}
 
-		if (ctt == StrLiteral) {
+		if (ctt == STR_LITERAL) {
 			if (f_plus) {
 				StrResult += currentToken.get_symbol();
 				f_plus = false;
 			}
 			continue;
 		}
-		if (ctt == Value) {
+		if (ctt == VALUE) {
 			if (f_plus) {
 				ostringstream ostr;
 				double v = currentToken.get_value();
@@ -194,12 +194,12 @@ Token str_expression(vector<Token> tknList)
 			}
 			continue;
 		}
-		if (ctt == Plus) {
+		if (ctt == PLUS) {
 			f_plus = true;
 			continue;
 		}
 	}
-	return Token(Invalid);
+	return Token(INVALID);
 }
 
 static int callcnt = 0;
@@ -222,16 +222,16 @@ int do_call_statement()
 		double paraValue = 0.0;
 		Token tok = get_nexttoken(TokenList);
 		TokenType tt = tok.get_type();
-		if (tt == LParen || tt == Comma)
+		if (tt == L_PAREN || tt == COMMA)
 			continue;
-		if (tt == RParen || tt == NomoreToken)
+		if (tt == R_PAREN || tt == NO_MORE_TOKEN)
 			break;
-		if (tt == Variable || tt == Symbol) {
+		if (tt == VARIABLE || tt == SYMBOL) {
 			tok = check_and_register_var(tok);
 			paraValue = tok.get_value();
 			parameterList.insert(parameterList.end(), paraValue);
 		}
-		if (tt == Value) {
+		if (tt == VALUE) {
 			paraValue = tok.get_value();
 			parameterList.insert(parameterList.end(), paraValue);
 		}
@@ -241,7 +241,7 @@ int do_call_statement()
 	while (true) {
 		src = sourcelist[invokedLine];
 		int n = get_tokenlist(src, TokenList);
-		if (get_nexttoken(TokenList).get_type() == Def) {
+		if (get_nexttoken(TokenList).get_type() == DEF) {
 			if (n < 2) 
 				return syntax_error("Subroutine can not be found");
 			string symbol = get_nexttoken(TokenList).get_symbol();
@@ -261,19 +261,19 @@ int do_call_statement()
 	while (true) {
 		Token tok = get_nexttoken(TokenList);
 		TokenType tt = tok.get_type();
-		if (tt == LParen) {
+		if (tt == L_PAREN) {
 			bInParen = true;
 			continue;
 		}
-		if (tt == Comma)
+		if (tt == COMMA)
 			continue; 
-		if (tt == RParen) {
+		if (tt == R_PAREN) {
 			bInParen = false;
 			break;
 		}
-		if (tt == NomoreToken) 
+		if (tt == NO_MORE_TOKEN) 
 			break;
-		if (tt == Symbol && bInParen == true) {
+		if (tt == SYMBOL && bInParen == true) {
 			string symbol = tok.get_symbol();
 			varmap[symbol] = parameterList[0];
 			if (parameterList.size() < 1)
@@ -287,7 +287,7 @@ int do_call_statement()
 		src = sourcelist[currentline];
 		get_tokenlist(src, TokenList);
 		TokenType tt = get_nth_token(0, TokenList).get_type();
-		if (tt == Enddef) {
+		if (tt == ENDDEF) {
 			if (disp_line)
 				cout << "Run the " << src << endl;
 			break;
@@ -319,9 +319,9 @@ int do_for_statement()
 	vector<Token> exTokenList;
 	while (true) {
 		Token tok = get_nexttoken(TokenList);
-		if (tok.get_type() == NomoreToken)
+		if (tok.get_type() == NO_MORE_TOKEN)
 			break;
-		if (tok.get_type() == To)
+		if (tok.get_type() == TO)
 			break;
 		exTokenList.insert(exTokenList.end(), tok);
 	}
@@ -333,7 +333,7 @@ int do_for_statement()
 	exTokenList.clear();
 	while (true) {
 		Token tok = get_nexttoken(TokenList);
-		if (tok.get_type() == NomoreToken)
+		if (tok.get_type() == NO_MORE_TOKEN)
 			break;
 		exTokenList.insert(exTokenList.end(), tok);
 	}
@@ -349,7 +349,7 @@ int do_for_statement()
 		int tmpLine = currentline;
 		if (tmpLine > (int)sourcelist.size() - 1)
 			return 0;
-		if (get_first_tokentype(sourcelist[tmpLine]) == Next) {
+		if (get_first_tokentype(sourcelist[tmpLine]) == NEXT) {
 			currentline = tmpLine + 1;
 			break;
 		}
@@ -380,11 +380,11 @@ int do_if_statement()
 	while (true) {
 		tok = get_nexttoken(TokenList);
 		TokenType tt = tok.get_type();
-		if (tt == Then)
+		if (tt == THEN)
 			break;
-		if (tt == NomoreToken)
+		if (tt == NO_MORE_TOKEN)
 			break;
-		if (Minus < tt && tt < Assign)
+		if (MINUS < tt && tt < ASSIGN)
 			optok = tok;
 		exTokenList.insert(exTokenList.end(), tok);
 	}
@@ -395,13 +395,13 @@ int do_if_statement()
 	
 	TokenType optt = optok.get_type();
 	bool bResult = true;
-	if (optt == Greater && exp > 0.0)
+	if (optt == GREATER && exp > 0.0)
 		bResult = false;
-	if (optt == Smaller && exp < 0.0)
+	if (optt == SMALLER && exp < 0.0)
 		bResult = false;
-	if (optt == Equal && fabs(exp - 0.0) > 1.0e-7)
+	if (optt == EQUAL && fabs(exp - 0.0) > 1.0e-7)
 		bResult = false;
-	if (optt == NotEqual && fabs(exp - 0.0) < 1.0e-7)
+	if (optt == NOT_EQUAL && fabs(exp - 0.0) < 1.0e-7)
 		bResult = false;
 	if (bResult) {
 		while (true) {
@@ -409,15 +409,15 @@ int do_if_statement()
 				return 0;
 			string src = sourcelist[currentline];
 			TokenType tt = get_first_tokentype(src);
-			if (tt == Endif) {
+			if (tt == ENDIF) {
 				currentline += 1;
 				return 0;
 			}
-			if (tt == Else) {
+			if (tt == ELSE) {
 				currentline += 1;
 				while (true) {
 					src = sourcelist[currentline++];
-					if (get_first_tokentype(src) == Endif) {
+					if (get_first_tokentype(src) == ENDIF) {
 						currentline += 1;
 						return 0;
 					}
@@ -430,12 +430,12 @@ int do_if_statement()
 	} else {
 		while (true) {
 			string src = sourcelist[currentline++];
-			if (get_first_tokentype(src) == Else) {
+			if (get_first_tokentype(src) == ELSE) {
 				while (true) {
 					if (currentline > (int)sourcelist.size() - 1)
 						return 0;
 					src = sourcelist[currentline];
-					if (get_first_tokentype(src) == Endif) {
+					if (get_first_tokentype(src) == ENDIF) {
 						currentline += 1;
 						return 0;
 					}
@@ -461,7 +461,7 @@ int do_assign()
 	vector<Token> exTokenList;
 	while (true) {
 		Token tok = get_nexttoken(TokenList);
-		if (tok.get_type() == NomoreToken)
+		if (tok.get_type() == NO_MORE_TOKEN)
 			break;
 		exTokenList.insert(exTokenList.end(), tok);
 	}
@@ -502,12 +502,12 @@ int exec_source(string srcline)
 
 	Token token0 = get_nth_token(0, TokenList);
 	TokenType tt0 = token0.get_type();
-	if (tt0 == Nothing)
+	if (tt0 == NOTHING)
 		return -1;
-	if (tt0 == End)
+	if (tt0 == END)
 		return 1;
 	
-	if (tt0 == Symbol) {
+	if (tt0 == SYMBOL) {
 		string symbol = token0.get_symbol();
 		if (comp_str(symbol, "printvar")) {
 			print_variable();
@@ -541,8 +541,8 @@ int exec_source(string srcline)
   
 	Token token1 = get_nth_token(1, TokenList);
 	TokenType tt1 = token1.get_type();
-	if (tt1 == Nothing) {
-		if (token0.get_type() == Value) {
+	if (tt1 == NOTHING) {
+		if (token0.get_type() == VALUE) {
 			cout << token0.get_value() << endl;
 			return 0;
 		} else {
@@ -550,25 +550,25 @@ int exec_source(string srcline)
 			bool fStrLiteral = false;
 			Token tok = get_nexttoken(TokenList);
 			exTokenList.insert(exTokenList.end(), tok);
-			if (tok.get_type() == StrLiteral)
+			if (tok.get_type() == STR_LITERAL)
 				Stck.push(str_expression(exTokenList));
 			else 
 				Stck.push(expression(exTokenList));
 		}
 	} else {
-		if (tt0 == If) {
+		if (tt0 == IF) {
 			if (do_if_statement())
 				return -1;
 			return 0;
-		} else if (tt0 == Call) {
+		} else if (tt0 == CALL) {
 			if (do_call_statement())
 				return -1;
 			return 0;
-		} else if (tt0 == For) {
+		} else if (tt0 == FOR) {
 			if (do_for_statement())
 				return -1;
 			return 0;
-		} else if (tt1 == Assign) {
+		} else if (tt1 == ASSIGN) {
 			do_assign();
 			return 0;
 		} else {
@@ -576,11 +576,11 @@ int exec_source(string srcline)
 			bool fStrLiteral = false;
 			while (true) {
 				Token tok = get_nexttoken(TokenList);
-				if (tok.get_type() == Print || tok.get_type() == Println)
+				if (tok.get_type() == PRINT || tok.get_type() == PRINT_LN)
 					continue;
-				if (tok.get_type() == NomoreToken)
+				if (tok.get_type() == NO_MORE_TOKEN)
 					break;
-				if (tok.get_type() == StrLiteral)
+				if (tok.get_type() == STR_LITERAL)
 					fStrLiteral = true;
 					exTokenList.insert(exTokenList.end(), tok);
 			}
@@ -597,11 +597,11 @@ int exec_source(string srcline)
 			}
 		}
 	}
-	if (tt0 == Print)
+	if (tt0 == PRINT)
 		print_value_or_literal(Stck.top());
-	if (tt0 == Println)
+	if (tt0 == PRINT_LN)
 		print_value_or_literal(Stck.top(), true);
-	if (f_direct_mode == true && tt0 != Print && tt0 != Println)
+	if (f_direct_mode == true && tt0 != PRINT && tt0 != PRINT_LN)
 		print_value_or_literal(Stck.top(), true);
 
 	return 0;
@@ -632,7 +632,7 @@ int statement(string line)
 template<class T> Token get_top_elem(T &Stck)      // change &Stck > &stck ????  Stck is global var?
 {
 	if(Stck.size() < 1) 
-		return Token(NomoreToken);   
+		return Token(NO_MORE_TOKEN);   
 	Token tok = Stck.top();
 	Stck.pop();
 	return tok;
@@ -652,11 +652,11 @@ void print_stack(stack<Token> stck, string message)
 	for (int i = 0; i < n; i++) {
 		Token t = tmp.top();
 		TokenType tt = t.get_type();
-		if (tt == Variable)
+		if (tt == VARIABLE)
 			cout << TokenTypeName[t.get_type()] << "(" << t.get_symbol() << ")" << t.get_value() << endl;
-		else if (tt == Symbol)
+		else if (tt == SYMBOL)
 			cout << TokenTypeName[t.get_type()] << ":" << t.get_symbol() << endl;
-		else if (tt == Assign)
+		else if (tt == ASSIGN)
 			cout << TokenTypeName[t.get_type()] << endl;
 		else 
 			cout << TokenTypeName[t.get_type()] << ":" << t.get_value() << endl;

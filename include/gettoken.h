@@ -12,41 +12,41 @@ using namespace std;
 
 typedef enum tokenType 
 {
-	 Start, 
-	 Invalid, 
-	 Nothing, 
-	 NomoreToken, 
-	 Value, 
-	 Variable, 
-	 Symbol, 
-	 StrLiteral,
-	 LParen, 
-	 RParen, 
-	 Comma, 
-	 Mult, 
-	 Divide, 
-	 Plus, 
-	 Minus, 
-	 Smaller, 
-	 Greater, 
-	 Equal, 
-	 NotEqual, 
-	 Assign, 
-	 Cmd, 
-	 End,
-	 Print, 
-	 Println, 
-	 Printspc, 
-	 Call, 
-	 Def, 
-	 Enddef, 
-	 If, 
-	 Then, 
-	 Else, 
-	 Endif, 
-	 For, 
-	 To, 
-	 Next 
+	 START, 
+	 INVALID, 
+	 NOTHING, 
+	 NO_MORE_TOKEN, 
+	 VALUE, 
+	 VARIABLE, 
+	 SYMBOL, 
+	 STR_LITERAL, 
+	 L_PAREN,
+	 R_PAREN, 
+	 COMMA, 
+	 MULT, 
+	 DIVIDE, 
+	 PLUS, 
+	 MINUS, 
+	 SMALLER, 
+	 GREATER, 
+	 EQUAL, 
+	 NOT_EQUAL, 
+	 ASSIGN, 
+	 CMD, 
+	 END,
+	 PRINT, 
+	 PRINT_LN, 
+	 PRINTSPC, 
+	 CALL, 
+	 DEF, 
+	 ENDDEF, 
+	 IF, 
+	 THEN, 
+	 ELSE, 
+	 ENDIF, 
+	 FOR, 
+	 TO, 
+	 NEXT 
 } TokenType;
 
 typedef enum tokenPos
@@ -79,7 +79,7 @@ public:
 	};
 	Token(double v, TokenPos pos = MIDDLE) {
 		value = v;
-		type = Value;
+		type = VALUE;
 		position = pos;
 	};
 	Token(TokenType t, TokenPos pos = MIDDLE) {
@@ -95,7 +95,7 @@ public:
 	};
 	Token(string s, TokenPos pos = MIDDLE) {
 		symbol = s;
-		type = Symbol;
+		type = SYMBOL;
 		value = 0.0;
 		position = pos;
 	};
