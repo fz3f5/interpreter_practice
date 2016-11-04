@@ -27,7 +27,7 @@ static Token check_and_register_var(Token tok)
 	return (Token (VALUE, symbol, v));
 }
 
-Token expression(vector<Token> tknList)
+Token expression(vector<Token> tknlist)
 {
 	stack<Token> exstck;
 	stack<Token> exopstck;
@@ -39,10 +39,10 @@ Token expression(vector<Token> tknList)
 			print_stack(exopstck, "exopstck");
 		}
 		if (token_stat) 
-			disp_tokenlist(tknList, "tknList");
+			disp_tokenlist(tknlist, "tknlist");
 
 		
-		Token currentToken = get_nexttoken(tknList);
+		Token currentToken = get_nexttoken(tknlist);
 		TokenType ctt = currentToken.get_type();
 		string csm = currentToken.get_symbol();
 		if (ctt == SYMBOL && csm[0] == '-') {
@@ -77,7 +77,7 @@ Token expression(vector<Token> tknList)
 			int nLRaren = 1;
 			vector<Token> tmpTokenList;
 			while (true) {
-				Token tok = get_nexttoken(tknList);
+				Token tok = get_nexttoken(tknlist);
 				TokenType tt = tok.get_type();
 				if (tt == L_PAREN) {
 					nLRaren += 1;
@@ -93,7 +93,7 @@ Token expression(vector<Token> tknList)
 			if (tmpTokenList.size() > 1) {
 				Token tok = expression(tmpTokenList);
 				tok.set_type(VALUE);
-				tknList.insert(tknList.begin(), tok);
+				tknlist.insert(tknlist.begin(), tok);
 				continue;
 			} else 
 				exstck.push(tmpTokenList[0].get_value());
@@ -127,18 +127,18 @@ Token expression(vector<Token> tknList)
 			}
 		}
 		if ((tok.get_type() == VALUE || tok.get_type() == VARIABLE) && (optok.get_type() == PLUS || optok.get_type() == MINUS)) {
-			Token nexttoken = get_nexttoken(tknList);
+			Token nexttoken = get_nexttoken(tknlist);
 			TokenType ntt = nexttoken.get_type();
 			if (ntt == MULT || ntt == DIVIDE || ntt == R_PAREN) {
 				exstck.push(tok);
 				exopstck.push(optok);
-				back_token(nexttoken, tknList);
+				back_token(nexttoken, tknlist);
 				exstck.push(currentToken);
 				continue;
 			} else {
 				double a = currentToken.get_value();
 				double b = tok.get_value();
-				back_token(nexttoken, tknList);
+				back_token(nexttoken, tknlist);
 				if (optok.get_type() == PLUS) {
 					exstck.push(a + b);
 					continue;
@@ -159,13 +159,13 @@ Token expression(vector<Token> tknList)
 	return (Token(INVALID));
 }
 
-Token str_expression(vector<Token> tknList) 
+Token str_expression(vector<Token> tknlist) 
 {
 	string StrResult = "";
 	bool f_plus = true;
 
 	while (true) {
-		Token currentToken = get_nexttoken(tknList);
+		Token currentToken = get_nexttoken(tknlist);
 		TokenType ctt = currentToken.get_type();
 
 		if (ctt == SYMBOL) {
