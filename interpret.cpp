@@ -9,8 +9,8 @@
 using namespace std;
 
 map<string, double> varmap;
-stack<Token> Stck;
-stack<Token> OpStck;
+stack<Token> stck;
+stack<Token> opstck;
 
 static Token check_and_register_var(Token tok)
 {
@@ -468,20 +468,20 @@ int do_assign()
 	Token tok = Token(0.0);
 	if (exTokenList.size() > 0)
 		tok = expression(exTokenList);
-	Stck.push(tok);
+	stck.push(tok);
 
 	if (stack_stat) {
-		print_stack(Stck, "Stck");
-		print_stack(OpStck, "OpStck");
+		print_stack(stck, "stck");
+		print_stack(opstck, "opsttck");
 	}
-	Token tv = get_top_elem(Stck);
+	Token tv = get_top_elem(stck);
 	double v = tv.get_value();
 	varmap[symbol] = v;
 	if (f_direct_mode) 
 		cout << v << endl;
 	if (stack_stat) {
-		print_stack(Stck, "Stck");
-		print_stack(OpStck, "Opstck");
+		print_stack(stck, "stck");
+		print_stack(opstck, "opstck");
 	}
 	return 0;
 }
@@ -514,8 +514,8 @@ int exec_source(string srcline)
 			return 0;
 		}
 		if (comp_str(symbol, "printstack")) {
-			print_stack(Stck, "Stck");
-			print_stack(OpStck, "OpStck");
+			print_stack(stck, "stck");
+			print_stack(opstck, "opstck");
 			return 0;
 		}
 		if (comp_str(symbol, "list")) {
@@ -551,9 +551,9 @@ int exec_source(string srcline)
 			Token tok = get_nexttoken(TokenList);
 			exTokenList.insert(exTokenList.end(), tok);
 			if (tok.get_type() == STR_LITERAL)
-				Stck.push(str_expression(exTokenList));
+				stck.push(str_expression(exTokenList));
 			else 
-				Stck.push(expression(exTokenList));
+				stck.push(expression(exTokenList));
 		}
 	} else {
 		if (tt0 == IF) {
@@ -586,23 +586,23 @@ int exec_source(string srcline)
 			}
 	    if (exTokenList.size() > 0) {
 				if (fStrLiteral)
-					Stck.push(str_expression(exTokenList));
+					stck.push(str_expression(exTokenList));
 				else 
-					Stck.push(expression(exTokenList));
+					stck.push(expression(exTokenList));
 			} else {
 				if (fStrLiteral)
-					Stck.push(exTokenList[0]);
+					stck.push(exTokenList[0]);
 				else
-					Stck.push(exTokenList[0].get_value());
+					stck.push(exTokenList[0].get_value());
 			}
 		}
 	}
 	if (tt0 == PRINT)
-		print_value_or_literal(Stck.top());
+		print_value_or_literal(stck.top());
 	if (tt0 == PRINT_LN)
-		print_value_or_literal(Stck.top(), true);
+		print_value_or_literal(stck.top(), true);
 	if (f_direct_mode == true && tt0 != PRINT && tt0 != PRINT_LN)
-		print_value_or_literal(Stck.top(), true);
+		print_value_or_literal(stck.top(), true);
 
 	return 0;
 }
@@ -629,12 +629,12 @@ int statement(string line)
 	return 0;
 }
 
-template<class T> Token get_top_elem(T &Stck)      // change &Stck > &stck ????  Stck is global var?
+template<class T> Token get_top_elem(T &stck)     
 {
-	if(Stck.size() < 1) 
+	if(stck.size() < 1) 
 		return Token(NO_MORE_TOKEN);   
-	Token tok = Stck.top();
-	Stck.pop();
+	Token tok = stck.top();
+	stck.pop();
 	return tok;
 }
 

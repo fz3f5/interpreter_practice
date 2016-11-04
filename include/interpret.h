@@ -15,15 +15,15 @@
 #include "gettoken.h"
 
 int statement(string s = "");
-template<class T> Token get_top_elem(T &Stck);
+template<class T> Token get_top_elem(T &stck);
 void print_stack(stack<Token> stck, string message);
 void print_variable();
 Token expression(vector<Token> ExTokenList);
 int exec_source(string srcline);
 
 extern map<string, double> varmap;
-extern stack<Token> Stck;
-extern stack<Token> OpStck;
+extern stack<Token> stck;
+extern stack<Token> opstck;
 extern bool disp_line;
 extern bool f_direct_mode;
 

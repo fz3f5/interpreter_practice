@@ -90,8 +90,8 @@ int main(int argc, char **argv)
 			continue;
 		}
 		if (comp_str(s, "printstack") || comp_str(s, "ps")) { 
-			print_stack(Stck, "Stck");
-			print_stack(OpStck, "OpStck");
+			print_stack(stck, "stck");
+			print_stack(opstck, "opstck");
 			continue;
 		}
 		if (comp_str(s, "printvar") || comp_str(s, "pv")) {  
