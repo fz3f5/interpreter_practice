@@ -87,6 +87,11 @@ int main(int argc, char **argv)
 			continue;
 		}
 		if (search_str(s, "list") != s.end()) { 
+			if(sourcelist.size() < 1) {
+				cout << "file is not loaded..." << endl;
+				cout << endl;
+				usage(1);
+			}
 			disp_source_file();
 			continue;
 		}
@@ -114,10 +119,11 @@ int main(int argc, char **argv)
 			cout << (disp_line ? "displine on" : "displine off") << endl;
 			continue;
 		}
-
 		if (comp_str(s, "run")) {
 			if (sourcelist.size() < 1) {
-				cout << "prease load the program." << endl;
+				cout << "please load the program." << endl;
+				cout << endl;
+				usage(1);
 				continue;
 			}
 			init_run();
