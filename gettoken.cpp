@@ -140,7 +140,7 @@ Token get_token(string s)
 		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (L_PAREN, tp);
 	}
-	if (c2 == ')') {
+	if (c1 == ')') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (R_PAREN, tp);
 	}
