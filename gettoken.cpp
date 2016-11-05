@@ -7,7 +7,7 @@
 using namespace std;
 
 vector<Token> TokenList;
-Token prevTok;
+Token prevtok;
 
 Token get_nexttoken(vector<Token> &list) 
 {
@@ -44,12 +44,12 @@ Token get_nth_token(int n, vector<Token> list)
 
 int get_tokenlist(string s, vector<Token> &list)
 {
-	prevTok = Token(START);
+	prevtok = Token(START);
 	list.clear();
 	Token tok = get_token(s);
 	while (tok.get_type() != NO_MORE_TOKEN) {
 		list.push_back(tok);
-		prevTok = tok;
+		prevtok = tok;
 		tok = get_token("");
 	}
 	return list.size();
@@ -79,8 +79,8 @@ Token get_token(string s)
 	static string srcstr;
 	string tokenstr;
 
-	if (is_command_or_assign(prevTok))
-		prevTok.set_type(START);
+	if (is_command_or_assign(prevtok))
+		prevtok.set_type(START);
 
 	string ss = trim_start(s);
 	srcstr += ss;
@@ -90,7 +90,7 @@ Token get_token(string s)
 		return Token(NO_MORE_TOKEN);
 
 	TokenPos tp = MIDDLE;
-	if (prevTok.get_type() == START)
+	if (prevtok.get_type() == START)
 		tp = TOP;
 	else if (srcstr.length() < 2)
 		tp = END_TOKEN;
@@ -108,11 +108,11 @@ Token get_token(string s)
 		srcstr = srcstr.substr (2, srcstr.length()-2);
 		return Token (NOT_EQUAL, tp);
 	}
-	if (c1 == '-' && !(prevTok.is_starttoken())) {
+	if (c1 == '-' && !(prevtok.is_starttoken())) {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (MINUS, tp);
 	}
-	if (c1 == '+' && !(prevTok.is_starttoken())) {
+	if (c1 == '+' && !(prevtok.is_starttoken())) {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (PLUS, tp);
 	}
@@ -255,15 +255,10 @@ Token get_token(string s)
 
 bool Token::is_starttoken()
 {
-	if (type == START)
+	if (type == START || type == L_PAREN || type == ASSIGN || type == COMMA) 
 		return true;
-	if (type == L_PAREN)
-		return true;
-	if (type == ASSIGN)
-		return true;
-	if (type == COMMA)
-		return true;
-	return false;
+	else 
+		return false;
 }
 
 void print_value_or_literal(Token tt, bool crlf)

@@ -42,6 +42,7 @@ bool disp_line = false;
 bool f_direct_mode = false;   
 void init_run();
 void init_load();
+void usage(int status); 
 
 
 int main(int argc, char **argv)
@@ -123,6 +124,10 @@ int main(int argc, char **argv)
 			statement();
 			continue;
 		}
+		if (comp_str(s, "help")) {
+			usage(0);
+			continue;
+		}
 
 		f_direct_mode = true;
 		statement(s);
@@ -144,4 +149,33 @@ void init_run()
 	currentline = 0;
 	varmap.clear();
 	f_direct_mode = false;
+}
+
+void usage(int status) {
+    fprintf(status ? stderr : stdout,
+			 "* ========================================================\n"
+			 "*  options\n"                                                
+			 "* ========================================================\n"
+			 "*  token_stat     - Display the token if true\n"
+			 "*  stack_stat     - Display the stack if true\n"
+			 "*  disp_line      - Display the line  if true\n"
+			 "*  f_direct_mode  - Change the direct execution mode if true\n"
+			 "*\n" 
+			 "*\n"
+			 "* ========================================================\n"
+			 "*  usage\n"
+			 "* ========================================================\n"
+			 "*  quit or exit        - exit from the commandline\n"
+			 "*  version             - display the version\n"
+			 "*  load                - load the source file\n"
+			 "*  list                - display the source file\n"
+			 "*  printstack or ps    - outputs the current stack\n"
+			 "*  printvar  or pv     - outputs the variable table\n"
+			 "*  stackstat           - turn ON and OFF the stack output\n"
+			 "*  tokenstat           - turn ON and OFF the token output\n"
+			 "*  displine            - turn ON and OFF the line output\n"
+			 "*  run                 - run the source file\n"
+			 "* ---------------------------------------------------------\n"
+			 "\n\n"
+	);
 }
