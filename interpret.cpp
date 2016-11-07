@@ -126,7 +126,7 @@ Token expression(vector<Token> tknlist)
 				continue;
 			}
 		}
-		if ((tok.get_type() == VALUE || tok.get_type() == VARIABLE) && (optok.get_type() == PLUS || optok.get_type() == MINUS)) {
+		if ((tok.get_type() == VALUE || tok.get_type() == VARIABLE) && (optok.get_type() == PLUS || optok.get_type() == MINUS || optok.get_value() == MOD)) {
 			Token nexttoken = get_nexttoken(tknlist);
 			TokenType ntt = nexttoken.get_type();
 			if (ntt == MULT || ntt == DIVIDE || ntt == R_PAREN) {
@@ -145,6 +145,10 @@ Token expression(vector<Token> tknlist)
 				}
 				if (optok.get_type() == MINUS) {
 					exstck.push(b - a);
+					continue;
+				}
+				if (optok.get_type() == MOD) {
+					exstck.push((int)b % (int)a);
 					continue;
 				}
 			}

@@ -23,6 +23,7 @@ typedef enum tokenType
 	 L_PAREN,
 	 R_PAREN, 
 	 COMMA, 
+	 MOD,
 	 MULT, 
 	 DIVIDE, 
 	 PLUS, 

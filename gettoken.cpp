@@ -116,6 +116,10 @@ Token get_token(string s)
 		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (PLUS, tp);
 	}
+	if (c1 == '%' && !(prevtok.is_starttoken())) {
+		srcstr = srcstr.substr (1, srcstr.length()-1);
+		return Token (MOD, tp);
+	}
 	if (c1 == '<') {
 		srcstr = srcstr.substr (1, srcstr.length()-1);
 		return Token (SMALLER, tp);
