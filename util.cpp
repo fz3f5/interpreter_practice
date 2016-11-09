@@ -105,17 +105,6 @@ bool is_oparator(char c)
 		return true;
 	else
 		return false;
-/*
-	if (c == '!')
-		return true;
-	if (c == '-' || c == '+')
-		return true;
-	if (c == '*' || c == '/')
-		return true;
-	if (c == '=')
-		return true;
-	return false;
-*/
 }
 
 

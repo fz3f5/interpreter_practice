@@ -50,7 +50,7 @@ int main(int argc, char **argv)
  	string s;
 	char buff[MAX_LINE_LENGTH];
 
-    // performance (- . -); todo copyright 
+    // performance (- . -);
 	printf("頑張っています..\nあと、少し..待って\n");
 	for(int i = 0; i < 5; i++) {
 		cout << "wait for " << i << "..." << endl;
