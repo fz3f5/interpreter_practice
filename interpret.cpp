@@ -261,23 +261,23 @@ int do_call_statement()
 	if (disp_line)
 		cout << "Run the " << src << endl;
 	get_tokenlist(src, TokenList);
-	bool bInParen = false;
+	bool b_in_paren = false;
 	while (true) {
 		Token tok = get_nexttoken(TokenList);
 		TokenType tt = tok.get_type();
 		if (tt == L_PAREN) {
-			bInParen = true;
+			b_in_paren = true;
 			continue;
 		}
 		if (tt == COMMA)
 			continue; 
 		if (tt == R_PAREN) {
-			bInParen = false;
+			b_in_paren = false;
 			break;
 		}
 		if (tt == NO_MORE_TOKEN) 
 			break;
-		if (tt == SYMBOL && bInParen == true) {
+		if (tt == SYMBOL && b_in_paren == true) {
 			string symbol = tok.get_symbol();
 			varmap[symbol] = parameterList[0];
 			if (parameterList.size() < 1)
