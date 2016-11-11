@@ -50,14 +50,15 @@ int main(int argc, char **argv)
  	string s;
 	char buff[MAX_LINE_LENGTH];
 
-    // performance (- . -);
+    /* performance (- . -);
 	printf("頑張っています..\nあと、少し..待って\n");
 	for(int i = 0; i < 5; i++) {
 		cout << "wait for " << i << "..." << endl;
 		sleep(1);
 		if(i == 4) cout << "起動中....." << endl;
 	}
-
+    sleep(3);
+	*/
 
 	if(argc > 1) {
 		string filename = "load" + string(argv[1]);
@@ -65,7 +66,6 @@ int main(int argc, char **argv)
 		load_source_file(filename);
 	}
 
-	sleep(3);
 
 	while(true)
 	{

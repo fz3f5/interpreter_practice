@@ -217,14 +217,14 @@ int do_call_statement()
 	callcnt += 1;
 
 	int returnLine = currentline;
-	Token token0 = get_nexttoken(TokenList);
-	Token token1 = get_nexttoken(TokenList);
+	Token token0 = get_nexttoken(tokenlist);
+	Token token1 = get_nexttoken(tokenlist);
 	string subroutineName = token1.get_symbol();
 
 	vector<double> parameterList;
 	while (true) {
 		double paraValue = 0.0;
-		Token tok = get_nexttoken(TokenList);
+		Token tok = get_nexttoken(tokenlist);
 		TokenType tt = tok.get_type();
 		if (tt == L_PAREN || tt == COMMA)
 			continue;
@@ -244,11 +244,11 @@ int do_call_statement()
 	string src = "";
 	while (true) {
 		src = sourcelist[invokedLine];
-		int n = get_tokenlist(src, TokenList);
-		if (get_nexttoken(TokenList).get_type() == DEF) {
+		int n = get_tokenlist(src, tokenlist);
+		if (get_nexttoken(tokenlist).get_type() == DEF) {
 			if (n < 2) 
 				return syntax_error("Subroutine can not be found");
-			string symbol = get_nexttoken(TokenList).get_symbol();
+			string symbol = get_nexttoken(tokenlist).get_symbol();
 			if (comp_str(symbol, subroutineName)) {
 				break;
 			} 
@@ -260,10 +260,10 @@ int do_call_statement()
 	src = sourcelist[invokedLine];
 	if (disp_line)
 		cout << "Run the " << src << endl;
-	get_tokenlist(src, TokenList);
+	get_tokenlist(src, tokenlist);
 	bool b_in_paren = false;
 	while (true) {
-		Token tok = get_nexttoken(TokenList);
+		Token tok = get_nexttoken(tokenlist);
 		TokenType tt = tok.get_type();
 		if (tt == L_PAREN) {
 			b_in_paren = true;
@@ -289,8 +289,8 @@ int do_call_statement()
 	currentline = invokedLine+1;
 	while (true) {
 		src = sourcelist[currentline];
-		get_tokenlist(src, TokenList);
-		TokenType tt = get_nth_token(0, TokenList).get_type();
+		get_tokenlist(src, tokenlist);
+		TokenType tt = get_nth_token(0, tokenlist).get_type();
 		if (tt == ENDDEF) {
 			if (disp_line)
 				cout << "Run the " << src << endl;
@@ -315,14 +315,14 @@ int do_for_statement()
 	}
 	forcnt += 1;
 
-	Token token0 = get_nexttoken(TokenList);
-	Token token1 = get_nexttoken(TokenList);
+	Token token0 = get_nexttoken(tokenlist);
+	Token token1 = get_nexttoken(tokenlist);
 	token1 = check_and_register_var(token1);
 	string counterVarName = token1.get_symbol();
-	Token token2 = get_nexttoken(TokenList);
+	Token token2 = get_nexttoken(tokenlist);
 	vector<Token> exTokenList;
 	while (true) {
-		Token tok = get_nexttoken(TokenList);
+		Token tok = get_nexttoken(tokenlist);
 		if (tok.get_type() == NO_MORE_TOKEN)
 			break;
 		if (tok.get_type() == TO)
@@ -336,7 +336,7 @@ int do_for_statement()
 		counter = exTokenList[0].get_value();
 	exTokenList.clear();
 	while (true) {
-		Token tok = get_nexttoken(TokenList);
+		Token tok = get_nexttoken(tokenlist);
 		if (tok.get_type() == NO_MORE_TOKEN)
 			break;
 		exTokenList.insert(exTokenList.end(), tok);
@@ -378,11 +378,11 @@ int do_if_statement()
 	ifcnt += 1;
 
 	Token optok;
-	Token tok = get_nexttoken(TokenList);
+	Token tok = get_nexttoken(tokenlist);
 	double exp = 0.0;
 	vector<Token> exTokenList; 
 	while (true) {
-		tok = get_nexttoken(TokenList);
+		tok = get_nexttoken(tokenlist);
 		TokenType tt = tok.get_type();
 		if (tt == THEN)
 			break;
@@ -455,16 +455,16 @@ int do_if_statement()
 int do_assign()
 {
 	if (token_stat)
-		disp_tokenlist(TokenList, "TokenList");
+		disp_tokenlist(tokenlist, "tokenlist");
 	
-	Token token0 = get_nexttoken(TokenList);
+	Token token0 = get_nexttoken(tokenlist);
 	string symbol = token0.get_symbol();
 	token0 = check_and_register_var(token0);
-	Token token1 = get_nexttoken(TokenList);
+	Token token1 = get_nexttoken(tokenlist);
 
 	vector<Token> exTokenList;
 	while (true) {
-		Token tok = get_nexttoken(TokenList);
+		Token tok = get_nexttoken(tokenlist);
 		if (tok.get_type() == NO_MORE_TOKEN)
 			break;
 		exTokenList.insert(exTokenList.end(), tok);
@@ -499,12 +499,12 @@ int exec_source(string srcline)
 		cout << "Run the " << line << endl;
 	if (line.length() > 1 && line[0] == '/' && line[1] == '/')
 		return 0;
-	get_tokenlist(line, TokenList);
+	get_tokenlist(line, tokenlist);
 
 	if (token_stat)
-		disp_tokenlist(TokenList, "TokenList");
+		disp_tokenlist(tokenlist, "tokenlist");
 
-	Token token0 = get_nth_token(0, TokenList);
+	Token token0 = get_nth_token(0, tokenlist);
 	TokenType tt0 = token0.get_type();
 	if (tt0 == NOTHING)
 		return -1;
@@ -543,7 +543,7 @@ int exec_source(string srcline)
 		}
 	}
   
-	Token token1 = get_nth_token(1, TokenList);
+	Token token1 = get_nth_token(1, tokenlist);
 	TokenType tt1 = token1.get_type();
 	if (tt1 == NOTHING) {
 		if (token0.get_type() == VALUE) {
@@ -552,7 +552,7 @@ int exec_source(string srcline)
 		} else {
 			vector<Token> exTokenList;
 			bool fStrLiteral = false;
-			Token tok = get_nexttoken(TokenList);
+			Token tok = get_nexttoken(tokenlist);
 			exTokenList.insert(exTokenList.end(), tok);
 			if (tok.get_type() == STR_LITERAL)
 				stck.push(str_expression(exTokenList));
@@ -579,7 +579,7 @@ int exec_source(string srcline)
 			vector<Token> exTokenList;
 			bool fStrLiteral = false;
 			while (true) {
-				Token tok = get_nexttoken(TokenList);
+				Token tok = get_nexttoken(tokenlist);
 				if (tok.get_type() == PRINT || tok.get_type() == PRINT_LN)
 					continue;
 				if (tok.get_type() == NO_MORE_TOKEN)

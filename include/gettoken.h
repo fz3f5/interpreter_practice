@@ -111,7 +111,7 @@ public:
 	void print_token();
 };
 
-extern vector <Token> TokenList;
+extern vector <Token> tokenlist;
 extern bool token_stat;
 extern bool stack_stat;
 

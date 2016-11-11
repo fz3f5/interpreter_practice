@@ -6,7 +6,7 @@
 #include "include/util.h"
 using namespace std;
 
-vector<Token> TokenList;
+vector<Token> tokenlist;
 Token prevtok;
 
 Token get_nexttoken(vector<Token> &list) 
