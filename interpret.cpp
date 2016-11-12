@@ -320,32 +320,32 @@ int do_for_statement()
 	token1 = check_and_register_var(token1);
 	string counterVarName = token1.get_symbol();
 	Token token2 = get_nexttoken(tokenlist);
-	vector<Token> exTokenList;
+	vector<Token> exlist;
 	while (true) {
 		Token tok = get_nexttoken(tokenlist);
 		if (tok.get_type() == NO_MORE_TOKEN)
 			break;
 		if (tok.get_type() == TO)
 			break;
-		exTokenList.insert(exTokenList.end(), tok);
+		exlist.insert(exlist.end(), tok);
 	}
 	double counter = 0;
-	if (exTokenList.size() > 1)
-		counter = expression(exTokenList).get_value();
+	if (exlist.size() > 1)
+		counter = expression(exlist).get_value();
 	else 
-		counter = exTokenList[0].get_value();
-	exTokenList.clear();
+		counter = exlist[0].get_value();
+	exlist.clear();
 	while (true) {
 		Token tok = get_nexttoken(tokenlist);
 		if (tok.get_type() == NO_MORE_TOKEN)
 			break;
-		exTokenList.insert(exTokenList.end(), tok);
+		exlist.insert(exlist.end(), tok);
 	}
 	double forto = 0;
-	if (exTokenList.size() > 1)
-		forto = expression(exTokenList).get_value();
+	if (exlist.size() > 1)
+		forto = expression(exlist).get_value();
 	else
-		forto = exTokenList[0].get_value();
+		forto = exlist[0].get_value();
 
 	if (counter > forto)
 		return syntax_error("Parameters of the for statement is incorrect");
@@ -380,7 +380,7 @@ int do_if_statement()
 	Token optok;
 	Token tok = get_nexttoken(tokenlist);
 	double exp = 0.0;
-	vector<Token> exTokenList; 
+	vector<Token> exlist; 
 	while (true) {
 		tok = get_nexttoken(tokenlist);
 		TokenType tt = tok.get_type();
@@ -390,10 +390,10 @@ int do_if_statement()
 			break;
 		if (MINUS < tt && tt < ASSIGN)
 			optok = tok;
-		exTokenList.insert(exTokenList.end(), tok);
+		exlist.insert(exlist.end(), tok);
 	}
-	if (exTokenList.size() > 1)
-		exp = expression(exTokenList).get_value();
+	if (exlist.size() > 1)
+		exp = expression(exlist).get_value();
 	else 
 		return syntax_error("Conditional expression is invalid");
 	
@@ -462,16 +462,16 @@ int do_assign()
 	token0 = check_and_register_var(token0);
 	Token token1 = get_nexttoken(tokenlist);
 
-	vector<Token> exTokenList;
+	vector<Token> exlist;
 	while (true) {
 		Token tok = get_nexttoken(tokenlist);
 		if (tok.get_type() == NO_MORE_TOKEN)
 			break;
-		exTokenList.insert(exTokenList.end(), tok);
+		exlist.insert(exlist.end(), tok);
 	}
 	Token tok = Token(0.0);
-	if (exTokenList.size() > 0)
-		tok = expression(exTokenList);
+	if (exlist.size() > 0)
+		tok = expression(exlist);
 	stck.push(tok);
 
 	if (stack_stat) {
@@ -550,14 +550,14 @@ int exec_source(string srcline)
 			cout << token0.get_value() << endl;
 			return 0;
 		} else {
-			vector<Token> exTokenList;
+			vector<Token> exlist;
 			bool fStrLiteral = false;
 			Token tok = get_nexttoken(tokenlist);
-			exTokenList.insert(exTokenList.end(), tok);
+			exlist.insert(exlist.end(), tok);
 			if (tok.get_type() == STR_LITERAL)
-				stck.push(str_expression(exTokenList));
+				stck.push(str_expression(exlist));
 			else 
-				stck.push(expression(exTokenList));
+				stck.push(expression(exlist));
 		}
 	} else {
 		if (tt0 == IF) {
@@ -576,7 +576,7 @@ int exec_source(string srcline)
 			do_assign();
 			return 0;
 		} else {
-			vector<Token> exTokenList;
+			vector<Token> exlist;
 			bool fStrLiteral = false;
 			while (true) {
 				Token tok = get_nexttoken(tokenlist);
@@ -586,18 +586,18 @@ int exec_source(string srcline)
 					break;
 				if (tok.get_type() == STR_LITERAL)
 					fStrLiteral = true;
-					exTokenList.insert(exTokenList.end(), tok);
+					exlist.insert(exlist.end(), tok);
 			}
-	    if (exTokenList.size() > 0) {
+	    if (exlist.size() > 0) {
 				if (fStrLiteral)
-					stck.push(str_expression(exTokenList));
+					stck.push(str_expression(exlist));
 				else 
-					stck.push(expression(exTokenList));
+					stck.push(expression(exlist));
 			} else {
 				if (fStrLiteral)
-					stck.push(exTokenList[0]);
+					stck.push(exlist[0]);
 				else
-					stck.push(exTokenList[0].get_value());
+					stck.push(exlist[0].get_value());
 			}
 		}
 	}
