@@ -551,7 +551,7 @@ int exec_source(string srcline)
 			return 0;
 		} else {
 			vector<Token> exlist;
-			bool fStrLiteral = false;
+			bool f_str_literal = false;
 			Token tok = get_nexttoken(tokenlist);
 			exlist.insert(exlist.end(), tok);
 			if (tok.get_type() == STR_LITERAL)
@@ -577,7 +577,7 @@ int exec_source(string srcline)
 			return 0;
 		} else {
 			vector<Token> exlist;
-			bool fStrLiteral = false;
+			bool f_str_literal = false;
 			while (true) {
 				Token tok = get_nexttoken(tokenlist);
 				if (tok.get_type() == PRINT || tok.get_type() == PRINT_LN)
@@ -585,16 +585,16 @@ int exec_source(string srcline)
 				if (tok.get_type() == NO_MORE_TOKEN)
 					break;
 				if (tok.get_type() == STR_LITERAL)
-					fStrLiteral = true;
+					f_str_literal = true;
 					exlist.insert(exlist.end(), tok);
 			}
 	    if (exlist.size() > 0) {
-				if (fStrLiteral)
+				if (f_str_literal)
 					stck.push(str_expression(exlist));
 				else 
 					stck.push(expression(exlist));
 			} else {
-				if (fStrLiteral)
+				if (f_str_literal)
 					stck.push(exlist[0]);
 				else
 					stck.push(exlist[0].get_value());
