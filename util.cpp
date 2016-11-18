@@ -115,16 +115,16 @@ bool is_paren(char c)
 	return false;
 }
 
-int syntax_error(string message)
+int syntax_error(string msg)
 {
-	if (message.length() > 0)
-		cerr << "syntaxerror: " << message << endl;
+	if (msg.length() > 0)
+		cerr << "syntaxerror: " << msg << endl;
 	else
 		cerr << "syntaxerror" << endl;
 	return -1;
 }
 
-string errormessage[] = 
+string errmsg[] = 
 {
 	"Unknown Error.", 
 	"Not specified the file name.", 
@@ -133,6 +133,6 @@ string errormessage[] =
 
 int disp_error(ErrorID id, string s)
 {
-	cout << errormessage[id] << s << endl;
+	cout << errmsg[id] << s << endl;
 	return -1;
 }

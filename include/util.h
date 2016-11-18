@@ -32,7 +32,7 @@ string trim (string s);
 string trim_start (string s);   
 string strip_str (string s);
 int is_number_string(string ss);
-int syntax_error (string message = "");
+int syntax_error (string msg = "");
 bool is_oparator (char c);
 bool is_paren (char c);
 void remove_last_CRLF (char *);
