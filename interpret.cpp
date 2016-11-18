@@ -645,13 +645,13 @@ template<class T> Token get_top_elem(T &stck)
 extern string TokenTypeName[];
 extern string tokenPosName[];
 
-void print_stack(stack<Token> stck, string message)
+void print_stack(stack<Token> stck, string msg)
 {
 	stack<Token> tmp;
 
 	tmp = stck;
 	cout << "\n";
-	cout << "=== stack " << message << " Top ===" << endl;
+	cout << "=== stack " << msg << " Top ===" << endl;
 	int n = (int)tmp.size();
 	for (int i = 0; i < n; i++) {
 		Token t = tmp.top();
