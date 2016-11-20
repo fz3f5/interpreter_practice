@@ -42,20 +42,20 @@ Token expression(vector<Token> tknlist)
 			disp_tokenlist(tknlist, "tknlist");
 
 		
-		Token currentToken = get_nexttoken(tknlist);
-		TokenType ctt = currentToken.get_type();
-		string csm = currentToken.get_symbol();
+		Token curtok = get_nexttoken(tknlist);  //current token 
+		TokenType ctt = curtok.get_type();
+		string csm = curtok.get_symbol();
 		if (ctt == SYMBOL && csm[0] == '-') {
 			string tmpsymbol = csm.substr(1, csm.length()-1);
 			Token tmpToken = Token (SYMBOL, tmpsymbol, TOP);
 			tmpToken = check_and_register_var(tmpToken);
 			double v = tmpToken.get_value();
-			currentToken = Token (-1 * v);
+			curtok = Token (-1 * v);
 			ctt = VALUE;
 		}
 		if (ctt == SYMBOL) {
-			currentToken = check_and_register_var(currentToken);
-			ctt = currentToken.get_type();
+			curtok = check_and_register_var(curtok);
+			ctt = curtok.get_type();
 		}
 		if (ctt == NO_MORE_TOKEN) {
 			Token optoken = get_top_elem(exopstck);
@@ -65,12 +65,12 @@ Token expression(vector<Token> tknlist)
 				return exstck.top();
 			}
 
-			currentToken = get_top_elem(exstck);
-			ctt = currentToken.get_type();
+			curtok = get_top_elem(exstck);
+			ctt = curtok.get_type();
 			exopstck.push(optoken);
 		}
 		if ((R_PAREN < ctt) && (ctt < SMALLER)){
-			exopstck.push(currentToken);
+			exopstck.push(curtok);
 			continue;
 		}
 		if (ctt == L_PAREN) {
@@ -100,7 +100,7 @@ Token expression(vector<Token> tknlist)
 			continue;
 	}
 	if (MINUS < ctt && ctt < ASSIGN) {
-		exopstck.push(currentToken);
+		exopstck.push(curtok);
 		continue;
 	}
 	if (ctt == VALUE || ctt == VARIABLE) {
@@ -109,13 +109,13 @@ Token expression(vector<Token> tknlist)
 		TokenType optokt = optok.get_type();
 
 		if ((tok.get_type() == VALUE || tok.get_type() == VARIABLE) && MINUS < optokt && optokt < ASSIGN) {
-			double a = currentToken.get_value();
+			double a = curtok.get_value();
 			double b = tok.get_value();
 			exstck.push(a - b);
 			continue;
 		}
 		if ((tok.get_type() == VALUE || tok.get_type() == VARIABLE) && (optok.get_type() == MULT || optok.get_type() == DIVIDE)) {
-			double a = currentToken.get_value();
+			double a = curtok.get_value();
 			double b = tok.get_value();
 			if (optok.get_type() == MULT) {
 				exstck.push(a * b);
@@ -133,10 +133,10 @@ Token expression(vector<Token> tknlist)
 				exstck.push(tok);
 				exopstck.push(optok);
 				back_token(nexttoken, tknlist);
-				exstck.push(currentToken);
+				exstck.push(curtok);
 				continue;
 			} else {
-				double a = currentToken.get_value();
+				double a = curtok.get_value();
 				double b = tok.get_value();
 				back_token(nexttoken, tknlist);
 				if (optok.get_type() == PLUS) {
@@ -157,7 +157,7 @@ Token expression(vector<Token> tknlist)
 			exstck.push(tok);
 		if (optok.get_type() != NO_MORE_TOKEN)
 			exstck.push(optok);
-		exstck.push(currentToken);
+		exstck.push(curtok);
 	}
 	}
 	return (Token(INVALID));
@@ -169,12 +169,12 @@ Token str_expression(vector<Token> tknlist)
 	bool f_plus = true;
 
 	while (true) {
-		Token currentToken = get_nexttoken(tknlist);
-		TokenType ctt = currentToken.get_type();
+		Token curtok = get_nexttoken(tknlist);
+		TokenType ctt = curtok.get_type();
 
 		if (ctt == SYMBOL) {
-			currentToken = check_and_register_var(currentToken);
-			ctt = currentToken.get_type();
+			curtok = check_and_register_var(curtok);
+			ctt = curtok.get_type();
 		}
 
 		if (ctt == NO_MORE_TOKEN) {
@@ -183,7 +183,7 @@ Token str_expression(vector<Token> tknlist)
 
 		if (ctt == STR_LITERAL) {
 			if (f_plus) {
-				StrResult += currentToken.get_symbol();
+				StrResult += curtok.get_symbol();
 				f_plus = false;
 			}
 			continue;
@@ -191,7 +191,7 @@ Token str_expression(vector<Token> tknlist)
 		if (ctt == VALUE) {
 			if (f_plus) {
 				ostringstream ostr;
-				double v = currentToken.get_value();
+				double v = curtok.get_value();
 				ostr << v;
 				StrResult += ostr.str();
 				f_plus = false;
