@@ -165,7 +165,7 @@ Token expression(vector<Token> tknlist)
 
 Token str_expression(vector<Token> tknlist) 
 {
-	string StrResult = "";
+	string result = "";
 	bool f_plus = true;
 
 	while (true) {
@@ -178,12 +178,12 @@ Token str_expression(vector<Token> tknlist)
 		}
 
 		if (ctt == NO_MORE_TOKEN) {
-			return (Token(STR_LITERAL, StrResult));
+			return (Token(STR_LITERAL, result));
 		}
 
 		if (ctt == STR_LITERAL) {
 			if (f_plus) {
-				StrResult += curtok.get_symbol();
+				result += curtok.get_symbol();
 				f_plus = false;
 			}
 			continue;
@@ -193,7 +193,7 @@ Token str_expression(vector<Token> tknlist)
 				ostringstream ostr;
 				double v = curtok.get_value();
 				ostr << v;
-				StrResult += ostr.str();
+				result += ostr.str();
 				f_plus = false;
 			}
 			continue;
