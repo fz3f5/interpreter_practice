@@ -193,9 +193,9 @@ Token get_token(string s)
 	}
 
 	tokenstr = c1;
-	bool bInStrLiteral = false;
+	bool b_in_str_literal = false;
 	if (c1 == 0x22) // 0x22 = \"
-		bInStrLiteral = true;
+		b_in_str_literal = true;
  	  while (true) {
 		if ((int)(srcstr.length()) == pos) {
 			srcstr = "";
@@ -203,12 +203,12 @@ Token get_token(string s)
 			break;
 		}
 		char c = srcstr[pos++];
-		if (bInStrLiteral) {
+		if (b_in_str_literal) {
 			if (c == 0x22) {
 				tokenstr += c;
 				int len = srcstr.length() - pos;
 				srcstr = srcstr.substr(pos, len);
-				bInStrLiteral = false;
+				b_in_str_literal = false;
 				break;
 			} else {
 				tokenstr += c;
