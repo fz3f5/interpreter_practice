@@ -223,7 +223,7 @@ int do_call_statement()
 
 	vector<double> parameterList;
 	while (true) {
-		double paraValue = 0.0;
+		double value = 0.0;
 		Token tok = get_nexttoken(tokenlist);
 		TokenType tt = tok.get_type();
 		if (tt == L_PAREN || tt == COMMA)
@@ -232,12 +232,12 @@ int do_call_statement()
 			break;
 		if (tt == VARIABLE || tt == SYMBOL) {
 			tok = check_and_register_var(tok);
-			paraValue = tok.get_value();
-			parameterList.insert(parameterList.end(), paraValue);
+			value = tok.get_value();
+			parameterList.insert(parameterList.end(), value);
 		}
 		if (tt == VALUE) {
-			paraValue = tok.get_value();
-			parameterList.insert(parameterList.end(), paraValue);
+			value = tok.get_value();
+			parameterList.insert(parameterList.end(), value);
 		}
 	}
 	int invokedLine = 0;
