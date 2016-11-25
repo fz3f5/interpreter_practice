@@ -219,7 +219,7 @@ int do_call_statement()
 	int returnLine = currentline;
 	Token token0 = get_nexttoken(tokenlist);
 	Token token1 = get_nexttoken(tokenlist);
-	string subroutineName = token1.get_symbol();
+	string fname = token1.get_symbol();
 
 	vector<double> paramList;
 	while (true) {
@@ -249,7 +249,7 @@ int do_call_statement()
 			if (n < 2) 
 				return syntax_error("Subroutine can not be found");
 			string symbol = get_nexttoken(tokenlist).get_symbol();
-			if (comp_str(symbol, subroutineName)) {
+			if (comp_str(symbol, fname)) {
 				break;
 			} 
 		}
