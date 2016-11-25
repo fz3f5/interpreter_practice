@@ -221,7 +221,7 @@ int do_call_statement()
 	Token token1 = get_nexttoken(tokenlist);
 	string subroutineName = token1.get_symbol();
 
-	vector<double> parameterList;
+	vector<double> paramList;
 	while (true) {
 		double value = 0.0;
 		Token tok = get_nexttoken(tokenlist);
@@ -233,11 +233,11 @@ int do_call_statement()
 		if (tt == VARIABLE || tt == SYMBOL) {
 			tok = check_and_register_var(tok);
 			value = tok.get_value();
-			parameterList.insert(parameterList.end(), value);
+			paramList.insert(paramList.end(), value);
 		}
 		if (tt == VALUE) {
 			value = tok.get_value();
-			parameterList.insert(parameterList.end(), value);
+			paramList.insert(paramList.end(), value);
 		}
 	}
 	int invokedLine = 0;
@@ -279,10 +279,10 @@ int do_call_statement()
 			break;
 		if (tt == SYMBOL && b_in_paren == true) {
 			string symbol = tok.get_symbol();
-			varmap[symbol] = parameterList[0];
-			if (parameterList.size() < 1)
+			varmap[symbol] = paramList[0];
+			if (paramList.size() < 1)
 				return syntax_error("The number of the argument and parameter do not match");
-			parameterList.erase(parameterList.begin());
+			paramList.erase(paramList.begin());
 		}
 	}
 	
