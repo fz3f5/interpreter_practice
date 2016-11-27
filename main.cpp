@@ -152,7 +152,7 @@ void init_load()
 
 void init_run()
 {
-	currentline = 0;
+	curline = 0;
 	varmap.clear();
 	f_direct_mode = false;
 }

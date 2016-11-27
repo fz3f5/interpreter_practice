@@ -8,7 +8,7 @@
 using namespace std;
 
 vector<string> sourcelist;
-int currentline;
+int curline;
 
 
 int load_source_file(string cmdline)

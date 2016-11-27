@@ -216,7 +216,7 @@ int do_call_statement()
 	}
 	callcnt += 1;
 
-	int returnLine = currentline;
+	int returnLine = curline;
 	Token token0 = get_nexttoken(tokenlist);
 	Token token1 = get_nexttoken(tokenlist);
 	string fname = token1.get_symbol();
@@ -286,9 +286,9 @@ int do_call_statement()
 		}
 	}
 	
-	currentline = invokedLine+1;
+	curline = invokedLine+1;
 	while (true) {
-		src = sourcelist[currentline];
+		src = sourcelist[curline];
 		get_tokenlist(src, tokenlist);
 		TokenType tt = get_nth_token(0, tokenlist).get_type();
 		if (tt == ENDDEF) {
@@ -296,12 +296,12 @@ int do_call_statement()
 				cout << "Run the " << src << endl;
 			break;
 		}
-		if (currentline > (int)sourcelist.size() - 1)
+		if (curline > (int)sourcelist.size() - 1)
 			return 0;
-		if (exec_source(sourcelist[currentline++]))
+		if (exec_source(sourcelist[curline++]))
 			return -1;
 	}
-	currentline = returnLine;
+	curline = returnLine;
 	return 0;
 }
 
@@ -350,11 +350,11 @@ int do_for_statement()
 	if (counter > forto)
 		return syntax_error("Parameters of the for statement is incorrect");
 	do {
-		int tmpLine = currentline;
+		int tmpLine = curline;
 		if (tmpLine > (int)sourcelist.size() - 1)
 			return 0;
 		if (get_first_tokentype(sourcelist[tmpLine]) == NEXT) {
-			currentline = tmpLine + 1;
+			curline = tmpLine + 1;
 			break;
 		}
 		string src = sourcelist[tmpLine++];
@@ -409,41 +409,41 @@ int do_if_statement()
 		bResult = false;
 	if (bResult) {
 		while (true) {
-			if (currentline > (int)sourcelist.size() - 1)
+			if (curline > (int)sourcelist.size() - 1)
 				return 0;
-			string src = sourcelist[currentline];
+			string src = sourcelist[curline];
 			TokenType tt = get_first_tokentype(src);
 			if (tt == ENDIF) {
-				currentline += 1;
+				curline += 1;
 				return 0;
 			}
 			if (tt == ELSE) {
-				currentline += 1;
+				curline += 1;
 				while (true) {
-					src = sourcelist[currentline++];
+					src = sourcelist[curline++];
 					if (get_first_tokentype(src) == ENDIF) {
-						currentline += 1;
+						curline += 1;
 						return 0;
 					}
 				}
 				return 0;
 			}
-      if (exec_source(sourcelist[currentline++])) 
+      if (exec_source(sourcelist[curline++])) 
 				return 0;
 		}
 	} else {
 		while (true) {
-			string src = sourcelist[currentline++];
+			string src = sourcelist[curline++];
 			if (get_first_tokentype(src) == ELSE) {
 				while (true) {
-					if (currentline > (int)sourcelist.size() - 1)
+					if (curline > (int)sourcelist.size() - 1)
 						return 0;
-					src = sourcelist[currentline];
+					src = sourcelist[curline];
 					if (get_first_tokentype(src) == ENDIF) {
-						currentline += 1;
+						curline += 1;
 						return 0;
 					}
-					if (exec_source(sourcelist[currentline++]))
+					if (exec_source(sourcelist[curline++]))
 						return 0;
 			  }
       }
@@ -620,12 +620,12 @@ int statement(string line)
 	}
 
 	while (true) {
-		if (currentline > (int)sourcelist.size() - 1)
+		if (curline > (int)sourcelist.size() - 1)
 			return 0;
 		callcnt = 0;
 		forcnt = 0;
 		ifcnt = 0;
-		string str = sourcelist[currentline++];
+		string str = sourcelist[curline++];
 		if (exec_source(str))
 			return 0;
 	}
