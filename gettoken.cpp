@@ -315,7 +315,7 @@ string TokenTypeName[] =
 	"next" 
 };
 
-string tokenPosName[] = 
+string posName[] = 
 {
 	"TOP", 
 	"AFTER_L_PAREN", 
@@ -327,16 +327,16 @@ string tokenPosName[] =
 void Token::print_token()
 {
 	if (type == VALUE) {
-		cout << "Value:" << value << "[" << tokenPosName[position] << "]" << endl;
+		cout << "Value:" << value << "[" << posName[position] << "]" << endl;
 		return;
 	}
 	if (type == SYMBOL) {
-		cout << "Symbol:" << symbol << "[" << tokenPosName[position] << "]" << endl;
+		cout << "Symbol:" << symbol << "[" << posName[position] << "]" << endl;
 		return;
 	}
 	if (type == STR_LITERAL) {
-		cout << "StrLiteral:" << symbol << "[" << tokenPosName[position] << "]" << endl;
+		cout << "StrLiteral:" << symbol << "[" << posName[position] << "]" << endl;
 		return;
 	}
-	cout << TokenTypeName[type] << "[" << tokenPosName[position] << "]" << endl;
+	cout << TokenTypeName[type] << "[" << posName[position] << "]" << endl;
 }
