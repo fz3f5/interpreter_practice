@@ -240,10 +240,10 @@ int do_call_statement()
 			paramList.insert(paramList.end(), value);
 		}
 	}
-	int invokedLine = 0;
+	int invoked = 0;
 	string src = "";
 	while (true) {
-		src = sourcelist[invokedLine];
+		src = sourcelist[invoked];
 		int n = get_tokenlist(src, tokenlist);
 		if (get_nexttoken(tokenlist).get_type() == DEF) {
 			if (n < 2) 
@@ -253,11 +253,11 @@ int do_call_statement()
 				break;
 			} 
 		}
-		if (++invokedLine >= (int)(sourcelist.size()))
+		if (++invoked >= (int)(sourcelist.size()))
 			return syntax_error("Subroutine can not be found");
 	}
 	
-	src = sourcelist[invokedLine];
+	src = sourcelist[invoked];
 	if (disp_line)
 		cout << "Run the " << src << endl;
 	get_tokenlist(src, tokenlist);
@@ -286,7 +286,7 @@ int do_call_statement()
 		}
 	}
 	
-	curline = invokedLine+1;
+	curline = invoked+1;
 	while (true) {
 		src = sourcelist[curline];
 		get_tokenlist(src, tokenlist);
