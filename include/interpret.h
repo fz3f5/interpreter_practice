@@ -19,7 +19,7 @@ template<class T> Token get_top_elem(T &stck);
 void print_stack(stack<Token> stck, string msg);
 void print_variable();
 Token expression(vector<Token> ExTokenList);
-int exec_source(string srcline);
+int exec_src(string srcline);
 
 extern map<string, double> varmap;
 extern stack<Token> stck;

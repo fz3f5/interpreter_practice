@@ -298,7 +298,7 @@ int do_call_statement()
 		}
 		if (curline > (int)sourcelist.size() - 1)
 			return 0;
-		if (exec_source(sourcelist[curline++]))
+		if (exec_src(sourcelist[curline++]))
 			return -1;
 	}
 	curline = returnLine;
@@ -358,7 +358,7 @@ int do_for_statement()
 			break;
 		}
 		string src = sourcelist[tmpLine++];
-		if (exec_source(src))
+		if (exec_src(src))
 			return 0;
 		callcnt -= 1;
 		varmap[counterVarName] = ++counter;
@@ -428,7 +428,7 @@ int do_if_statement()
 				}
 				return 0;
 			}
-      if (exec_source(sourcelist[curline++])) 
+      if (exec_src(sourcelist[curline++])) 
 				return 0;
 		}
 	} else {
@@ -443,7 +443,7 @@ int do_if_statement()
 						curline += 1;
 						return 0;
 					}
-					if (exec_source(sourcelist[curline++]))
+					if (exec_src(sourcelist[curline++]))
 						return 0;
 			  }
       }
@@ -490,7 +490,7 @@ int do_assign()
 	return 0;
 }
 
-int exec_source(string srcline)
+int exec_src(string srcline)
 {
 	string line = trim(srcline);
 	if (line.length() < 1)
@@ -615,7 +615,7 @@ int exec_source(string srcline)
 int statement(string line)
 {
 	if (f_direct_mode) {
-		exec_source(line);
+		exec_src(line);
 		return 0;
 	}
 
@@ -626,7 +626,7 @@ int statement(string line)
 		forcnt = 0;
 		ifcnt = 0;
 		string str = sourcelist[curline++];
-		if (exec_source(str))
+		if (exec_src(str))
 			return 0;
 	}
 
