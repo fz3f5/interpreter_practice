@@ -51,7 +51,7 @@ int load_source_file(string cmdline)
 	return 0;
 }
 
-void disp_source_file()
+void disp_src_file()
 {
 	vector<string>::iterator itr;
 	int num = 0;

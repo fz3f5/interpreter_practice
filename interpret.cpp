@@ -523,7 +523,7 @@ int exec_src(string srcline)
 			return 0;
 		}
 		if (comp_str(symbol, "list")) {
-			disp_source_file();
+			disp_src_file();
 			return 0;
 		}
 		if (comp_str(symbol, "stackstat") || comp_str(symbol, "ss")) {

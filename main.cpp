@@ -92,7 +92,7 @@ int main(int argc, char **argv)
 				cout << endl;
 				usage(1);
 			}
-			disp_source_file();
+			disp_src_file();
 			continue;
 		}
 		if (comp_str(s, "printstack") || comp_str(s, "ps")) { 
