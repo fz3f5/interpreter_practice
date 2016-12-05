@@ -15,7 +15,7 @@ using namespace std;
 
 extern vector <string> sourcelist;
 extern int curline;
-int load_source_file(string cmdline);
+int load_src_file(string cmdline);
 void disp_src_file();
 
 #endif

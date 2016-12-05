@@ -63,7 +63,7 @@ int main(int argc, char **argv)
 	if(argc > 1) {
 		string filename = "load" + string(argv[1]);
 		init_load();
-		load_source_file(filename);
+		load_src_file(filename);
 	}
 
 
@@ -83,7 +83,7 @@ int main(int argc, char **argv)
 		}
 		if (search_str(s, "load") != s.end()) { 
 			init_load();
-			load_source_file(s);
+			load_src_file(s);
 			continue;
 		}
 		if (search_str(s, "list") != s.end()) { 

@@ -11,7 +11,7 @@ vector<string> sourcelist;
 int curline;
 
 
-int load_source_file(string cmdline)
+int load_src_file(string cmdline)
 {
 	char buff[MAX_LINE_LENGTH];
 	strcpy(buff, cmdline.c_str());
