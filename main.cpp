@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 			continue;
 		}
 		if (search_str(s, "list") != s.end()) { 
-			if(sourcelist.size() < 1) {
+			if(srclist.size() < 1) {
 				cout << "file is not loaded..." << endl;
 				cout << endl;
 				usage(1);
@@ -120,7 +120,7 @@ int main(int argc, char **argv)
 			continue;
 		}
 		if (comp_str(s, "run")) {
-			if (sourcelist.size() < 1) {
+			if (srclist.size() < 1) {
 				cout << "please load the program." << endl;
 				cout << endl;
 				usage(1);

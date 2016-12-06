@@ -7,7 +7,7 @@
 #include "include/util.h"
 using namespace std;
 
-vector<string> sourcelist;
+vector<string> srclist;
 int curline;
 
 
@@ -34,7 +34,7 @@ int load_src_file(string cmdline)
 	if(!fin) {
 		return disp_error(FILE_NOT_OPEN, filename);
 	}
-	sourcelist.clear();
+	srclist.clear();
 	int lines = 0;
 
 	while (!fin.eof()) {
@@ -42,7 +42,7 @@ int load_src_file(string cmdline)
 		remove_last_CRLF(buff);
 		string s = string(buff);
 		if (s.length() > 0) {
-			sourcelist.push_back(s);
+			srclist.push_back(s);
 			lines += 1;
 		}
 	}
@@ -55,7 +55,7 @@ void disp_src_file()
 {
 	vector<string>::iterator itr;
 	int num = 0;
-	for (itr = sourcelist.begin(); itr != sourcelist.end(); ++itr) {
+	for (itr = srclist.begin(); itr != srclist.end(); ++itr) {
 		cout << setw(3) << ++num << ":";
 		cout << *itr << " " << endl;
 	}

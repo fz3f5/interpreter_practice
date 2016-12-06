@@ -243,7 +243,7 @@ int do_call_statement()
 	int invoked = 0;
 	string src = "";
 	while (true) {
-		src = sourcelist[invoked];
+		src = srclist[invoked];
 		int n = get_tokenlist(src, tokenlist);
 		if (get_nexttoken(tokenlist).get_type() == DEF) {
 			if (n < 2) 
@@ -253,11 +253,11 @@ int do_call_statement()
 				break;
 			} 
 		}
-		if (++invoked >= (int)(sourcelist.size()))
+		if (++invoked >= (int)(srclist.size()))
 			return syntax_error("Subroutine can not be found");
 	}
 	
-	src = sourcelist[invoked];
+	src = srclist[invoked];
 	if (disp_line)
 		cout << "Run the " << src << endl;
 	get_tokenlist(src, tokenlist);
@@ -288,7 +288,7 @@ int do_call_statement()
 	
 	curline = invoked+1;
 	while (true) {
-		src = sourcelist[curline];
+		src = srclist[curline];
 		get_tokenlist(src, tokenlist);
 		TokenType tt = get_nth_token(0, tokenlist).get_type();
 		if (tt == ENDDEF) {
@@ -296,9 +296,9 @@ int do_call_statement()
 				cout << "Run the " << src << endl;
 			break;
 		}
-		if (curline > (int)sourcelist.size() - 1)
+		if (curline > (int)srclist.size() - 1)
 			return 0;
-		if (exec_src(sourcelist[curline++]))
+		if (exec_src(srclist[curline++]))
 			return -1;
 	}
 	curline = returnLine;
@@ -351,13 +351,13 @@ int do_for_statement()
 		return syntax_error("Parameters of the for statement is incorrect");
 	do {
 		int tmpLine = curline;
-		if (tmpLine > (int)sourcelist.size() - 1)
+		if (tmpLine > (int)srclist.size() - 1)
 			return 0;
-		if (get_first_tokentype(sourcelist[tmpLine]) == NEXT) {
+		if (get_first_tokentype(srclist[tmpLine]) == NEXT) {
 			curline = tmpLine + 1;
 			break;
 		}
-		string src = sourcelist[tmpLine++];
+		string src = srclist[tmpLine++];
 		if (exec_src(src))
 			return 0;
 		callcnt -= 1;
@@ -409,9 +409,9 @@ int do_if_statement()
 		bResult = false;
 	if (bResult) {
 		while (true) {
-			if (curline > (int)sourcelist.size() - 1)
+			if (curline > (int)srclist.size() - 1)
 				return 0;
-			string src = sourcelist[curline];
+			string src = srclist[curline];
 			TokenType tt = get_first_tokentype(src);
 			if (tt == ENDIF) {
 				curline += 1;
@@ -420,7 +420,7 @@ int do_if_statement()
 			if (tt == ELSE) {
 				curline += 1;
 				while (true) {
-					src = sourcelist[curline++];
+					src = srclist[curline++];
 					if (get_first_tokentype(src) == ENDIF) {
 						curline += 1;
 						return 0;
@@ -428,22 +428,22 @@ int do_if_statement()
 				}
 				return 0;
 			}
-      if (exec_src(sourcelist[curline++])) 
+      if (exec_src(srclist[curline++])) 
 				return 0;
 		}
 	} else {
 		while (true) {
-			string src = sourcelist[curline++];
+			string src = srclist[curline++];
 			if (get_first_tokentype(src) == ELSE) {
 				while (true) {
-					if (curline > (int)sourcelist.size() - 1)
+					if (curline > (int)srclist.size() - 1)
 						return 0;
-					src = sourcelist[curline];
+					src = srclist[curline];
 					if (get_first_tokentype(src) == ENDIF) {
 						curline += 1;
 						return 0;
 					}
-					if (exec_src(sourcelist[curline++]))
+					if (exec_src(srclist[curline++]))
 						return 0;
 			  }
       }
@@ -620,12 +620,12 @@ int statement(string line)
 	}
 
 	while (true) {
-		if (curline > (int)sourcelist.size() - 1)
+		if (curline > (int)srclist.size() - 1)
 			return 0;
 		callcnt = 0;
 		forcnt = 0;
 		ifcnt = 0;
-		string str = sourcelist[curline++];
+		string str = srclist[curline++];
 		if (exec_src(str))
 			return 0;
 	}

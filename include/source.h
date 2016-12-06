@@ -13,7 +13,7 @@
 
 using namespace std;
 
-extern vector <string> sourcelist;
+extern vector <string> srclist;
 extern int curline;
 int load_src_file(string cmdline);
 void disp_src_file();
