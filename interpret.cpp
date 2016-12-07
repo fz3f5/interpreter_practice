@@ -75,7 +75,7 @@ Token expression(vector<Token> tknlist)
 		}
 		if (ctt == L_PAREN) {
 			int nLRaren = 1;
-			vector<Token> tmpTokenList;
+			vector<Token> tmplist;
 			while (true) {
 				Token tok = get_nexttoken(tknlist);
 				TokenType tt = tok.get_type();
@@ -88,15 +88,15 @@ Token expression(vector<Token> tknlist)
 				}
 				if (tt == NO_MORE_TOKEN)
 					return syntax_error("NO PAREN");
-				tmpTokenList.insert(tmpTokenList.end(), tok);
+				tmplist.insert(tmplist.end(), tok);
 			}
-			if (tmpTokenList.size() > 1) {
-				Token tok = expression(tmpTokenList);
+			if (tmplist.size() > 1) {
+				Token tok = expression(tmplist);
 				tok.set_type(VALUE);
 				tknlist.insert(tknlist.begin(), tok);
 				continue;
 			} else 
-				exstck.push(tmpTokenList[0].get_value());
+				exstck.push(tmplist[0].get_value());
 			continue;
 	}
 	if (MINUS < ctt && ctt < ASSIGN) {
