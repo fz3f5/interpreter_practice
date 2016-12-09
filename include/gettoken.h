@@ -123,6 +123,6 @@ Token get_nth_token(int n, vector<Token> list);
 int get_tokenlist(string s, vector<Token> &list);
 Token get_token(string s);
 void disp_tokenlist(vector<Token> list, string name);
-void print_value_or_literal(Token tt, bool crlf=false);
+void print_val_or_literal(Token tt, bool crlf=false);
 
 #endif

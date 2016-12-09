@@ -265,7 +265,7 @@ bool Token::is_starttoken()
 		return false;
 }
 
-void print_value_or_literal(Token tt, bool crlf)
+void print_val_or_literal(Token tt, bool crlf)
 {
 	if (tt.get_type() == STR_LITERAL)
 		cout << tt.get_symbol();

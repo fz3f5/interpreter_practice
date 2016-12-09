@@ -602,11 +602,11 @@ int exec_src(string srcline)
 		}
 	}
 	if (tt0 == PRINT)
-		print_value_or_literal(stck.top());
+		print_val_or_literal(stck.top());
 	if (tt0 == PRINT_LN)
-		print_value_or_literal(stck.top(), true);
+		print_val_or_literal(stck.top(), true);
 	if (f_direct_mode == true && tt0 != PRINT && tt0 != PRINT_LN)
-		print_value_or_literal(stck.top(), true);
+		print_val_or_literal(stck.top(), true);
 
 	return 0;
 }
